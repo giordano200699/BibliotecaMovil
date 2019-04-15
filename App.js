@@ -7,10 +7,9 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-//import loginVista from './src/componentes/loginVista';
-const LoginVista = require('./src/componentes/loginVista');
+import {StyleSheet, Text, View, StatusBar} from 'react-native';
 
+/*
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -18,14 +17,31 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
+*/
+
+import Login from './src/paginas/Login';
+
+
 type Props = {};
+
 export default class App extends Component<Props> {
   render() {
     return (
-        <LoginVista></LoginVista>
+        <View style={styles.container}>
+          <StatusBar backgroundColor='#001970' barStyle='light-content'/>
+          <Login/>
+        </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container : {
+    backgroundColor: '#303f9f',
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
 });
