@@ -1,14 +1,19 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, Dimensions} from 'react-native';
 
 type Props = {};
+
+var dimensiones = Dimensions.get('window');
+var altura = dimensiones.height;
+var ancho = dimensiones.width;
+
 
 export default class Logo extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
         <Image style={{width: altura/7.9, height:ancho/4.1}}
-        source={require('../images/BiblioFisi.png')}/>
+        source={require('../imagenes/BiblioFisi.png')}/>
         <Text style={styles.logoTex}> BiblioFisi </Text>
       </View> 
     );
