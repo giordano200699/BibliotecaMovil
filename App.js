@@ -27,14 +27,17 @@ type Props = {};
 export default class App extends Component<Props> {
   render() {
     return (
-        <View style={styles.container}>
+        //<View style={styles.container}>
+        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
           <StatusBar backgroundColor='#001970' barStyle='light-content'/>
           <Login/>
-        </View>
+        </ScrollView>
+        //</View>
     );
   }
 }
 
+/*
 const styles = StyleSheet.create({
   container : {
     backgroundColor: '#303f9f',
@@ -43,5 +46,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+
+});*/
+
+  
+const styles = StyleSheet.create({
+  container : {
+    backgroundColor: '#303f9f',
+    flex: 1
+    //flexDirection: 'column',
+    //alignItems: 'center',
+    //justifyContent: 'center'
+  }
 
 });

@@ -52,6 +52,7 @@ const theme = {
 
 			)
 	};
+	
 	loguearte(){
 		Alert.alert(
 		'Acceso',
@@ -74,6 +75,8 @@ const theme = {
 
 	};
 }
+
+
 const styles2 = StyleSheet.create({
 	container: {
     	flex: 1,
