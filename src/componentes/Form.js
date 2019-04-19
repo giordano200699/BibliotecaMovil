@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, TextInput, TouchableOpacity, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, Dimensions,Alert} from 'react-native';
 
 type Props = {};
 
@@ -9,18 +9,8 @@ var ancho = dimensiones.width;
 
 
 export default class Form extends Component<Props> {
-  
-  /*
-  constructor (props) {
-    super(props);
-    this.state = {
-      codigo: '',
-      contraseña: ''
-  };
-  this.handleChange = this.handleChange.bind(this)
-}
 
-  handleChange (e) {
+  /*handleChange (e) {
     const nombre = e.target.nombre;
     const value = e.target.value;
     this.setState({
@@ -28,6 +18,35 @@ export default class Form extends Component<Props> {
     })
   }
   */
+
+  constructor(){
+    super();
+    this.state = {
+      codigo: '',
+      contrasenia: ''
+    }
+  }
+
+  cambioCodigo(codigo){
+    this.setState({codigo});
+  }
+
+  cambioContrasenia(contrasenia){
+    this.setState({contrasenia});
+  }
+
+  async preAutorizacion(){
+    try {
+      let response = await fetch(
+        'https://bibliotecabackend.herokuapp.com/usuarios',
+      );
+      let responseJson = await response.json();
+      Alert.alert(''+ responseJson.descripcion);
+    } catch (error) {
+      console.error(error);
+    }
+    //Alert.alert('Datos Obtenidos! '+this.state.codigo);
+  }
  
   render() {
     return (
@@ -35,17 +54,17 @@ export default class Form extends Component<Props> {
           <TextInput style={styles.inputBox} 
               placeholder='Código'
               placeholderTextColor='#ffffff'
-              //value={this.state.nombre}
-              //onChange={this.handleChange}
+              value={this.state.codigo}
+              onChangeText={(codigo) => this.cambioCodigo(codigo)}
           />
           <TextInput style={styles.inputBox} 
               placeholder='Contraseña'
               secureTextEntry={true}
               placeholderTextColor='#ffffff'
-              //value={this.state.contraseña}
-              //onChange={this.handleChange} 
+              value={this.state.contrasenia}
+              onChangeText={(contrasenia) => this.cambioContrasenia(contrasenia)}
           />
-          <TouchableOpacity style={styles.button} >
+          <TouchableOpacity style={styles.button} onPress={() => this.preAutorizacion()}>
               <Text style={styles.buttonText}> Acceder </Text>
           </TouchableOpacity>
       </View> 
