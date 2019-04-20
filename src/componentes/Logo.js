@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, Image, Dimensions} from 'react-native';
 
-type Props = {};
 
 var dimensiones = Dimensions.get('window');
 var altura = dimensiones.height;
 var ancho = dimensiones.width;
 
 
-export default class Logo extends Component<Props> {
+export default class Logo extends Component{
   render() {
     return (
       <View style={styles.container}>

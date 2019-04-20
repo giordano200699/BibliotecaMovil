@@ -22,9 +22,9 @@ const instructions = Platform.select({
 import Login from './src/paginas/Login';
 
 
-type Props = {};
 
-export default class App extends Component<Props> {
+
+export default class App extends Component {
   render() {
     return (
         //<View style={styles.container}>

@@ -5,10 +5,9 @@ import {StyleSheet, Text, View,ScrollView} from 'react-native';
 import Logo from '../componentes/Logo';
 import Form from '../componentes/Form';
 
-type Props = {};
 
 
-export default class Login extends Component<Props> {
+export default class Login extends Component{
   render() {
     return (
       //<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
