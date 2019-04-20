@@ -1,56 +1,51 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, TextInput, TouchableOpacity, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, Dimensions, Alert, keyCode} from 'react-native';
 
-type Props = {};
 
 var dimensiones = Dimensions.get('window');
 var altura = dimensiones.height;
 var ancho = dimensiones.width;
 
 
-export default class Form extends Component<Props> {
-  
-  /*
-  constructor (props) {
-    super(props);
-    this.state = {
-      codigo: '',
-      contraseña: ''
-  };
-  this.handleChange = this.handleChange.bind(this)
-}
+export default class Form extends Component {
 
-  handleChange (e) {
-    const nombre = e.target.nombre;
-    const value = e.target.value;
-    this.setState({
-      [nombre]: value
-    })
+
+  constructor(props) {
+    super(props);
+    this.state = { codigo: '', contraseña: ''};
+    this.loguearte = this.loguearte.bind(this);
+
   }
-  */
  
   render() {
+
     return (
       <View style={styles.container}>
           <TextInput style={styles.inputBox} 
               placeholder='Código'
               placeholderTextColor='#ffffff'
-              //value={this.state.nombre}
-              //onChange={this.handleChange}
+              onChangeText={(codigo) => this.setState({codigo})}  
           />
           <TextInput style={styles.inputBox} 
               placeholder='Contraseña'
               secureTextEntry={true}
               placeholderTextColor='#ffffff'
-              //value={this.state.contraseña}
-              //onChange={this.handleChange} 
+              onChangeText={(contraseña) => this.setState({contraseña})}  
           />
-          <TouchableOpacity style={styles.button} >
+
+          <TouchableOpacity style={styles.button} onPress={this.loguearte} >
               <Text style={styles.buttonText}> Acceder </Text>
           </TouchableOpacity>
       </View> 
     );
   }
+
+
+  loguearte(){
+		Alert.alert(
+		'Acceso',
+		'Te has logueado en el sistema - Codigo: ' + this.state.codigo + ' contraseña:  ' + this.state.contraseña)
+	};
 
 
   }
