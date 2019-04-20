@@ -33,7 +33,7 @@ export default class Form extends Component {
     this.setState({contrasenia});
   }
 
-  async preAutorizacion(){
+  async preAutorizacion(properties){
     try {
       let response = await fetch(
         'https://bibliotecabackend.herokuapp.com/usuarios',
@@ -44,6 +44,7 @@ export default class Form extends Component {
       console.error(error);
     }
     //Alert.alert('Datos Obtenidos! '+this.state.codigo);
+    properties.navigation.navigate('Hola');
   }
  
   render() {
@@ -69,7 +70,7 @@ export default class Form extends Component {
           <TouchableOpacity style={styles.button} onPress={this.loguearte} >
               <Text style={styles.buttonText}> Acceder </Text>
           />*/}
-          <TouchableOpacity style={styles.button} onPress={() => this.preAutorizacion()}>
+          <TouchableOpacity style={styles.button} onPress={() => this.preAutorizacion(this.props.propForm)}>
               <Text style={styles.buttonText}> Acceder </Text>
           </TouchableOpacity>
       </View> 

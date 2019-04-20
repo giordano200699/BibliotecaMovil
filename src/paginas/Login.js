@@ -13,7 +13,7 @@ export default class Login extends Component{
       //<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
           <Logo/>
-          <Form/>
+          <Form propForm ={this.props.propsLogin}/>
       </View>
       //</ScrollView>
     );

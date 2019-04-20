@@ -7,56 +7,13 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, StatusBar, ScrollView} from 'react-native';
+import Navegacion from './Navegacion';
 
-/*
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+export default class App extends Component{
 
-*/
-
-import Login from './src/paginas/Login';
-
-
-
-
-export default class App extends Component {
-  render() {
-    return (
-        //<View style={styles.container}>
-        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-          <StatusBar backgroundColor='#001970' barStyle='light-content'/>
-          <Login/>
-        </ScrollView>
-        //</View>
+  render(){
+    return(
+      <Navegacion/>
     );
   }
 }
-
-/*
-const styles = StyleSheet.create({
-  container : {
-    backgroundColor: '#303f9f',
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-
-});*/
-
-  
-const styles = StyleSheet.create({
-  container : {
-    backgroundColor: '#303f9f',
-    flex: 1
-    //flexDirection: 'column',
-    //alignItems: 'center',
-    //justifyContent: 'center'
-  }
-
-});
