@@ -14,7 +14,7 @@ export default class Hola extends Component {
         //<View style={styles.container}>
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
           <StatusBar backgroundColor='#0A1970' barStyle='light-content'/>
-          <Text style={styles.Texto}> Hola xD</Text>
+          <Text style={styles.Texto}> Bienvenido Usuario !!!</Text>
         </ScrollView>
         //</View>
     );

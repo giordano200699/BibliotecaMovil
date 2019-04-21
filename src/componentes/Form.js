@@ -36,15 +36,30 @@ export default class Form extends Component {
   async preAutorizacion(properties){
     try {
       let response = await fetch(
-        'https://bibliotecabackend.herokuapp.com/usuarios',
-      );
+        'https://bibliotecabackend.herokuapp.com/usuarios/esUsuario?clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            nombre: this.state.codigo,
+            contrasenia: this.state.contrasenia,
+          }),
+      });
       let responseJson = await response.json();
-      Alert.alert(''+ responseJson.descripcion);
+      //Alert.alert(''+ O);
+      if(Object.keys(responseJson).length!=2){
+        properties.navigation.navigate('Hola');
+      }else{
+        alert(responseJson.descripcion);
+      }
     } catch (error) {
       console.error(error);
     }
     //Alert.alert('Datos Obtenidos! '+this.state.codigo);
-    properties.navigation.navigate('Hola');
+    
   }
  
   render() {
