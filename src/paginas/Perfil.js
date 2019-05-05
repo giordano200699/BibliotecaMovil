@@ -7,14 +7,14 @@ var dimensiones = Dimensions.get('window');
 var altura = dimensiones.height;
 var ancho = dimensiones.width;
 
-
-export default class Hola extends Component {
+export default class Perfil extends Component {
   render() {
+    const usuario = this.props.navigation.getParam('usuario');
     return (
         //<View style={styles.container}>
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
           <StatusBar backgroundColor='#0A1970' barStyle='light-content'/>
-          <Text style={styles.Texto}> Bienvenido Usuario !!!</Text>
+          <Text style={styles.Texto}> Bienvenido {usuario.nombres} !!!</Text>
         </ScrollView>
         //</View>
     );

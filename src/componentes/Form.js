@@ -35,6 +35,12 @@ export default class Form extends Component {
 
   async preAutorizacion(properties){
     try {
+      
+      if(this.state.codigo.endsWith('@unmsm.edu.pe')){
+        var codigoAEnviar = this.state.codigo;
+      }else{
+        var codigoAEnviar = this.state.codigo+'@unmsm.edu.pe';
+      }
       let response = await fetch(
         'https://bibliotecabackend.herokuapp.com/usuarios/esUsuario?clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n',
         {
@@ -44,22 +50,19 @@ export default class Form extends Component {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            nombre: this.state.codigo,
+            nombre: codigoAEnviar,
             contrasenia: this.state.contrasenia,
           }),
       });
       let responseJson = await response.json();
-      //Alert.alert(''+ O);
       if(Object.keys(responseJson).length!=2){
-        properties.navigation.navigate('Hola');
+        properties.navigation.navigate('Perfil',{usuario:responseJson[0]});
       }else{
         alert(responseJson.descripcion);
       }
     } catch (error) {
       console.error(error);
     }
-    //Alert.alert('Datos Obtenidos! '+this.state.codigo);
-    
   }
  
   render() {
