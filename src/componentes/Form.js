@@ -50,13 +50,16 @@ export default class Form extends Component {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            nombre: codigoAEnviar,
-            contrasenia: this.state.contrasenia,
+            nombre: 'giordano.barbieri@unmsm.edu.pe',
+            contrasenia: '16200251',
+            //nombre: codigoAEnviar,
+            //contrasenia: this.state.contrasenia,
           }),
       });
       let responseJson = await response.json();
       if(Object.keys(responseJson).length!=2){
-        properties.navigation.navigate('Perfil',{usuario:responseJson[0]});
+        properties.navigation.navigate('Menu',{usuario:responseJson[0]});
+        //properties.navigation.navigate('Perfil',{usuario:responseJson[0]});
       }else{
         alert(responseJson.descripcion);
       }
