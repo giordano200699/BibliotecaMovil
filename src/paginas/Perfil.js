@@ -15,7 +15,7 @@ export default class Perfil extends Component {
   constructor(){
     super();
     this.state = {
-      tipoUsuario: {},
+      tipoUsuario: {}
     }
   }
 
@@ -46,9 +46,9 @@ export default class Perfil extends Component {
           <StatusBar backgroundColor='#0A1970' barStyle='light-content'/>
 
           <View style={styles.menu}>
-            <TouchableOpacity onPress={() => this.regresar()}> 
+            {/* <TouchableOpacity onPress={() => this.regresar()}> 
               <Image style={ styles.imagenBoton } source={require('./../imagenes/flechaIzquierda.png')} /> 
-            </TouchableOpacity> 
+            </TouchableOpacity>  */}
             <Text style={styles.Texto}> Perfil</Text>
           </View>
           <View style={styles.padreImagen}>
