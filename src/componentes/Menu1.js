@@ -119,34 +119,38 @@ export default class Menu1 extends Component {
         <Modal visible={this.state.mostrarModal} 
         >
           <View style={{flexDirection:'row', flexWrap:'wrap'}}>
-            <Text > Lista de Libros</Text>
             <TouchableOpacity onPress={()=>{
               this.setState({
                 mostrarModal:false
               });
             }}>
-            <Text style={styles.cerrarModalTexto}>Cerrar X</Text>
+            <Text style={styles.cerrarModalTexto}>Cerrar</Text>
             </TouchableOpacity>
           </View>
           {this.state.libro?
-          <View >
-            <Text >{this.state.libro.titulo}</Text>
-            <Text >{this.state.libro.tituloSecundario}</Text>
+            <View style={styles.container}>
+              <View>
+                <Text style={styles.tituloSeccion}> Lista de Libros</Text>
+              </View>
+              <View style={styles.containerModal}>
+                <Text style={styles.tituloSeccion}>{this.state.libro.titulo}</Text>
+                <Text style={styles.textoSeccion} >{this.state.libro.tituloSecundario}</Text>
 
-            <Text >Resumen</Text>
-            <Text >{this.state.libro.resumen}</Text>
+                <Text >Resumen</Text>
+                <Text style={styles.textEsp}>{this.state.libro.resumen}</Text>
 
-            <Text >Información General</Text>
-            <Text >Clasificacion: {this.state.libro.clasificacion}</Text>
-            <Text >Edición: {this.state.libro.edicion}</Text>
-            <Text >Año: {this.state.libro.anio}</Text>
-            <Text >Tomo: {this.state.libro.tomo}</Text>
-            <Text >ISBN: {this.state.libro.isbn}</Text>
-            <Text >Extensión: {this.state.libro.extension}</Text>
-            <Text >Dimensiones: {this.state.libro.dimensiones}</Text>
-            <Text >Observaciones: {this.state.libro.observaciones}</Text>
-            <Text >Acompañamiento: {this.state.libro.acompaniamiento}</Text>
-          </View>
+                <Text >Información General</Text>
+                <Text style={styles.textEsp}>Clasificacion: {this.state.libro.clasificacion}</Text>
+                <Text style={styles.textEsp}>Edición: {this.state.libro.edicion}</Text>
+                <Text style={styles.textEsp}>Año: {this.state.libro.anio}</Text>
+                <Text style={styles.textEsp}>Tomo: {this.state.libro.tomo}</Text>
+                <Text style={styles.textEsp}>ISBN: {this.state.libro.isbn}</Text>
+                <Text style={styles.textEsp}>Extensión: {this.state.libro.extension}</Text>
+                <Text style={styles.textEsp}>Dimensiones: {this.state.libro.dimensiones}</Text>
+                <Text style={styles.textEsp}>Observaciones: {this.state.libro.observaciones}</Text>
+                <Text style={styles.textEsp}>Acompañamiento: {this.state.libro.acompaniamiento}</Text>
+              </View>
+            </View>
           :null}
 
         </Modal>        
@@ -165,13 +169,39 @@ export default class Menu1 extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    //backgroundColor: '#F0F0F0',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
+
+  containerModal : {
+    //backgroundColor: '#F0F0F0',
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+  },
+
+  tituloSeccion:{
+    fontSize:22,
+    marginLeft:12,
+    marginBottom:5
+  },
+
+  textoSeccion:{
+    fontSize: 15,
+    marginLeft:16,
+    marginBottom:15
+  },
+
   text:{
     fontSize:30
   },
+
+  textEsp:{
+    marginBottom:5
+  },
+
   Texto : {
     fontSize: altura/23.7,
     color: 'rgba(255,255,255,1)',
@@ -203,11 +233,15 @@ const styles = StyleSheet.create({
   estiloTexto:{
     width:200
   },
+
   cerrarModalTexto:{
-    backgroundColor:'#333',
-    color:'#bbb',
+    //backgroundColor: '#F0F0F0',
+    textDecorationLine: "underline",
+    color:'blue',
     fontSize:20,
     width:100,
-    marginLeft: 'auto'
+    marginLeft:20,
+    marginBottom: 10
   }
+
 })
