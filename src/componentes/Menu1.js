@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import {
   View,
   Text,
-  StyleSheet,ScrollView,Dimensions,StatusBar,Image,Alert
+  StyleSheet,ScrollView,Dimensions,StatusBar,Image,Alert,TouchableOpacity,Modal
 } from 'react-native'
 
-//import BotonMenu from "../componentes/BotonMenu";
+
 
 var dimensiones = Dimensions.get('window');
 var altura = dimensiones.height;
@@ -19,6 +19,8 @@ export default class Menu1 extends Component {
       data:[],
       cargoData:false,
       codigo:null,
+      mostrarModal:false,
+      libro: null,
       ruta1:"https://bibliotecabackend.herokuapp.com/archivos/imagen/"+this.props.navigation.state.params.usuario.imagenId+"/1?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n" 
     };
     this.miFuncion = this.miFuncion.bind(this);
@@ -36,37 +38,67 @@ export default class Menu1 extends Component {
         var variable = [];
         for (let entrada of result) {
 
-          var autores;
+          
 
-          await fetch('http://bibliotecabackend.herokuapp.com/libros/autores/'+entrada.libroId+'?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n')//hace el llamado al dominio que se le envió donde retornara respuesta de la funcion
+          fetch('http://bibliotecabackend.herokuapp.com/libros/todo/'+entrada.libroId+'?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n')
           .then((response)=>{
               return response.json();
           })
           .then((result2)=>{
-              autores = [];
-              alert(entrada.libroId);
-              for (let entrada2 of result2){
-                
-                autores.push(
-                  <Text style={styles.estiloTexto}>{entrada2.tipo}</Text>
-                );
-              }
+            //if(entrada.libroId==2){
+              
+              let contador=0;
+              let autores =[];
+              result2.forEach((item, index, array) => {
+                    autores.push(
+                      <Text style={styles.estiloTexto}>{item.nombre}</Text>
+                    );
+                    contador++;
+                    
+                    if (contador === result2.length) {
+                      
+                      variable.push(
+                        <TouchableOpacity style={styles.padreImagen} onPress={()=> {
+                          //this.props.navigation.navigate('InfoLibro',{libro:entrada});
+                          //this.props.navigation.navigate('DrawerOpen');
+                            this.setState({
+                              mostrarModal:true,
+                              libro:entrada
+                            });
+                          }
+                        }>
+                          <Image style={styles.imagenEstilo} source={{uri:this.state.ruta1}} />
+                          <View >
+                          <Text style={styles.estiloTexto}>{entrada.titulo}</Text>
+                          {autores}
+                          </View>
+                        </TouchableOpacity>
+                        );
+                      this.setState({
+                        codigo:variable,
+                      },()=>{
+                        if(entrada.libroId== result[result.length-1].libroId){
+                          this.setState({
+                            cargoData:true
+                          });
+                        }
+                      });
+                    }
+              });
+
+            //}
+              
+            
               
           }) 
+          
 
-          variable.push(
-            <View style={styles.padreImagen}>
-              <Image style={styles.imagenEstilo} source={{uri:this.state.ruta1}} />
-              <Text style={styles.estiloTexto}>Lista de Libros{entrada.titulo}</Text>
-              {autores}
-            </View>
-            );
+          
         }
 
         this.setState({
-            cargoData : true,
-            data:result,
-            codigo:variable
+            
+            data:result
         });
     }) 
 
@@ -81,11 +113,45 @@ export default class Menu1 extends Component {
       <ScrollView showsVerticalScrollIndicator={false}>
         <StatusBar backgroundColor='#0A1970' barStyle='light-content'/>
         <View style={styles.menu}>
-            <Text style={styles.Texto}> Lista de Libros {this.state.data.length}</Text>
+            <Text style={styles.Texto}> Lista de Libros</Text>
         </View>
-        
+
+        <Modal visible={this.state.mostrarModal} 
+        >
+          <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+            <Text > Lista de Libros</Text>
+            <TouchableOpacity onPress={()=>{
+              this.setState({
+                mostrarModal:false
+              });
+            }}>
+            <Text style={styles.cerrarModalTexto}>Cerrar X</Text>
+            </TouchableOpacity>
+          </View>
+          {this.state.libro?
+          <View >
+            <Text >{this.state.libro.titulo}</Text>
+            <Text >{this.state.libro.tituloSecundario}</Text>
+
+            <Text >Resumen</Text>
+            <Text >{this.state.libro.resumen}</Text>
+
+            <Text >Información General</Text>
+            <Text >Clasificacion: {this.state.libro.clasificacion}</Text>
+            <Text >Edición: {this.state.libro.edicion}</Text>
+            <Text >Año: {this.state.libro.anio}</Text>
+            <Text >Tomo: {this.state.libro.tomo}</Text>
+            <Text >ISBN: {this.state.libro.isbn}</Text>
+            <Text >Extensión: {this.state.libro.extension}</Text>
+            <Text >Dimensiones: {this.state.libro.dimensiones}</Text>
+            <Text >Observaciones: {this.state.libro.observaciones}</Text>
+            <Text >Acompañamiento: {this.state.libro.acompaniamiento}</Text>
+          </View>
+          :null}
+
+        </Modal>        
             
-              {this.state.codigo}
+              {this.state.cargoData?this.state.codigo:null}
             
           
         
@@ -125,7 +191,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingLeft:15,
     paddingBottom: 20,
-    flexDirection:'row', flexWrap:'wrap'
+    flexDirection:'row'
   },
 
   imagenEstilo:{
@@ -136,5 +202,12 @@ const styles = StyleSheet.create({
   },
   estiloTexto:{
     width:200
+  },
+  cerrarModalTexto:{
+    backgroundColor:'#333',
+    color:'#bbb',
+    fontSize:20,
+    width:100,
+    marginLeft: 'auto'
   }
 })
