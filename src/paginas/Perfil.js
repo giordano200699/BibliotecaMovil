@@ -44,6 +44,7 @@ export default class Perfil extends Component {
         //<View style={styles.container}>
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
           <StatusBar backgroundColor='#0A1970' barStyle='light-content'/>
+
           <View style={styles.menu}>
             <TouchableOpacity onPress={() => this.regresar()}> 
               <Image style={ styles.imagenBoton } source={require('./../imagenes/flechaIzquierda.png')} /> 
