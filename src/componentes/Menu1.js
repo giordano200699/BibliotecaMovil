@@ -118,9 +118,9 @@ export default class Menu1 extends Component {
 
         <Modal visible={this.state.mostrarModal} 
         >
-          <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+          <View style={{flexDirection:'row'}}>
             <Text > Lista de Libros</Text>
-            <TouchableOpacity onPress={()=>{
+            <TouchableOpacity style={{marginLeft: 'auto'}} onPress={()=>{
               this.setState({
                 mostrarModal:false
               });
@@ -208,6 +208,5 @@ const styles = StyleSheet.create({
     color:'#bbb',
     fontSize:20,
     width:100,
-    marginLeft: 'auto'
   }
 })
