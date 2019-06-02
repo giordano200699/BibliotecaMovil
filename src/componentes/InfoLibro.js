@@ -5,7 +5,9 @@ import {
   StyleSheet,ScrollView,Dimensions,StatusBar,Image,Alert,TouchableOpacity
 } from 'react-native'
 
-
+var dimensiones = Dimensions.get('window');
+var altura = dimensiones.height;
+var ancho = dimensiones.width;
 
 export default class InfoLibro extends Component {
 
@@ -46,5 +48,21 @@ export default class InfoLibro extends Component {
 }
 
 const styles = StyleSheet.create({
+
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  text:{
+    fontSize:30
+  },
+  Texto : {
+    fontSize: altura/23.7,
+    color: 'rgba(255,255,255,1)',
+    marginVertical: altura/118.4, 
+    marginLeft:10
+  }
   
 })
