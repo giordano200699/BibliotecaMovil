@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {
   View,
   Text,
-  StyleSheet,ScrollView,Dimensions,StatusBar,Image,Alert,TouchableOpacity,Modal
+  StyleSheet,ScrollView,Dimensions,StatusBar,Image,Alert,TouchableOpacity,Modal,Picker
 } from 'react-native'
 
 
@@ -21,10 +21,44 @@ export default class Menu1 extends Component {
       codigo:null,
       mostrarModal:false,
       libro: null,
-      ruta1:"https://bibliotecabackend.herokuapp.com/archivos/imagen/"+this.props.navigation.state.params.usuario.imagenId+"/1?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n" 
+      ruta1:"https://bibliotecabackend.herokuapp.com/archivos/imagen/"+this.props.navigation.state.params.usuario.imagenId+"/1?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n",
+      codigoItemsModal: [],
+      itemSeleccionado: null,
+      banderaSeleccionItem:false,
+      lugarArregloItem:0,
+      seleccionPrestamo:0
     };
     this.miFuncion = this.miFuncion.bind(this);
+    this.cambiarCodigoItemAnterior = this.cambiarCodigoItemAnterior.bind(this);
     this.miFuncion();
+}
+cambiarCodigoItemAnterior(){
+  if(this.state.itemSeleccionado){
+
+    var codigoItems = this.state.codigoItemsModal;
+    var item = this.state.itemSeleccionado;
+    codigoItems[this.state.itemSeleccionado.numeroCopia-1] = (
+      <View>
+        {item.disponibilidad>0?
+        <TouchableOpacity onPress={()=>{
+          this.cambiarCodigoItemAnterior();
+        
+          this.setState({
+            itemSeleccionado:item,
+            banderaSeleccionItem:true,
+            lugarArregloItem: item.numeroCopia-1
+          });
+          
+        }}>
+          <Text style={item.disponibilidad==1?styles.itemDisponible:item.disponibilidad==2?styles.itemPrestado:styles.itemReservado}>
+          Nº{item.numeroCopia}     {item.numeroIngreso+'             '}
+          {item.disponibilidad==1?'Disponible':item.disponibilidad==2?'Prestado':'Reservado'}
+          </Text>
+        </TouchableOpacity>
+        :null}
+      </View>
+    );
+  }
 }
 
   async miFuncion(){
@@ -49,13 +83,42 @@ export default class Menu1 extends Component {
               
               let contador=0;
               let autores =[];
-              result2.forEach((item, index, array) => {
+              result2.editoriales.forEach((item, index, array) => {
                     autores.push(
                       <Text style={styles.estiloTexto}>{item.nombre}</Text>
                     );
                     contador++;
                     
-                    if (contador === result2.length) {
+                    if (contador === result2.editoriales.length) {
+                      var codigoItems = [];
+                      let contador2 = 0;
+                      for (let item of result2.items){
+                        codigoItems.push(
+                          <View>
+                            {item.disponibilidad>0?
+                            <TouchableOpacity onPress={()=>{
+
+                              this.cambiarCodigoItemAnterior();
+                              
+                              this.setState({
+                                itemSeleccionado:item,
+                                banderaSeleccionItem:true,
+                                lugarArregloItem: item.numeroCopia-1
+                              },()=>{
+                                //alert('bbbbbbbbbbbbbbbb'+this.state.lugarArregloItem);
+                              });
+                              
+                            }}>
+                              <Text style={item.disponibilidad==1?styles.itemDisponible:item.disponibilidad==2?styles.itemPrestado:styles.itemReservado}>
+                              Nº{item.numeroCopia}     {item.numeroIngreso+'             '}
+                              {item.disponibilidad==1?'Disponible':item.disponibilidad==2?'Prestado':'Reservado'}
+                              </Text>
+                            </TouchableOpacity>
+                            :null}
+                          </View>
+                        )
+                        contador2++;
+                      } 
                       
                       variable.push(
                         <TouchableOpacity style={styles.padreImagen} onPress={()=> {
@@ -63,7 +126,8 @@ export default class Menu1 extends Component {
                           //this.props.navigation.navigate('DrawerOpen');
                             this.setState({
                               mostrarModal:true,
-                              libro:entrada
+                              libro:entrada,
+                              codigoItemsModal:codigoItems
                             });
                           }
                         }>
@@ -104,11 +168,43 @@ export default class Menu1 extends Component {
 
   }
 
+  
+
   render() {
     const { usuario } = this.props.navigation.state.params;
     const rutaImagen = "https://bibliotecabackend.herokuapp.com/archivos/imagen/"+usuario.imagenId+"/1?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n";
      
-    
+    if(this.state.banderaSeleccionItem){
+      //alert(this.state.lugarArregloItem);
+      var codigoItems = this.state.codigoItemsModal;
+      var item = this.state.itemSeleccionado;
+      codigoItems[this.state.lugarArregloItem] = (
+        <View>
+          {item.disponibilidad>0?
+          <TouchableOpacity onPress={()=>{
+            this.cambiarCodigoItemAnterior();
+          
+            this.setState({
+              itemSeleccionado:item,
+              banderaSeleccionItem:true,
+              lugarArregloItem: item.numeroCopia-1
+            });
+            
+          }}>
+            <Text style={styles.itemSeleccionado}>
+            Nº{item.numeroCopia}     {item.numeroIngreso+'             '}
+            {item.disponibilidad==1?'Disponible':item.disponibilidad==2?'Prestado':'Reservado'}
+            </Text>
+          </TouchableOpacity>
+          :null}
+        </View>
+      );
+      this.setState({
+        banderaSeleccionItem:false
+      });
+      
+    }
+
     return(
       <ScrollView showsVerticalScrollIndicator={false}>
         <StatusBar backgroundColor='#0A1970' barStyle='light-content'/>
@@ -118,45 +214,65 @@ export default class Menu1 extends Component {
 
         <Modal visible={this.state.mostrarModal} 
         >
-          <View style={{flexDirection:'row'}}>
-            <Text > Lista de Libros</Text>
-            <TouchableOpacity style={{marginLeft: 'auto'}} onPress={()=>{
-              this.setState({
-                mostrarModal:false
-              });
-            }}>
-            <Text style={styles.cerrarModalTexto}>Cerrar</Text>
-            </TouchableOpacity>
-          </View>
-          {this.state.libro?
-            <View style={styles.container}>
-              <View>
-                <Text style={styles.tituloSeccion}> Lista de Libros</Text>
-              </View>
-              <View style={styles.containerModal}>
-                <Text style={styles.tituloSeccion}>{this.state.libro.titulo}</Text>
-                <Text style={styles.textoSeccion} >{this.state.libro.tituloSecundario}</Text>
-
-                <Text >Resumen</Text>
-                <Text style={styles.textEsp}>{this.state.libro.resumen}</Text>
-
-                <Text >Información General</Text>
-                <Text style={styles.textEsp}>Clasificacion: {this.state.libro.clasificacion}</Text>
-                <Text style={styles.textEsp}>Edición: {this.state.libro.edicion}</Text>
-                <Text style={styles.textEsp}>Año: {this.state.libro.anio}</Text>
-                <Text style={styles.textEsp}>Tomo: {this.state.libro.tomo}</Text>
-                <Text style={styles.textEsp}>ISBN: {this.state.libro.isbn}</Text>
-                <Text style={styles.textEsp}>Extensión: {this.state.libro.extension}</Text>
-                <Text style={styles.textEsp}>Dimensiones: {this.state.libro.dimensiones}</Text>
-                <Text style={styles.textEsp}>Observaciones: {this.state.libro.observaciones}</Text>
-                <Text style={styles.textEsp}>Acompañamiento: {this.state.libro.acompaniamiento}</Text>
-              </View>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={{flexDirection:'row'}}>
+              <TouchableOpacity style={{marginLeft: 'auto'}} onPress={()=>{
+                this.setState({
+                  mostrarModal:false
+                });
+              }}>
+              <Text style={styles.cerrarModalTexto}>Cerrar</Text>
+              </TouchableOpacity>
             </View>
-          :null}
+            {this.state.libro?
+              <View style={styles.container}>
+                <View style={styles.containerModal}>
+                  <Text style={styles.tituloSeccion}>{this.state.libro.titulo}</Text>
+                  {this.state.libro.tituloSecundario?<Text style={styles.textoSeccion} >{this.state.libro.tituloSecundario}</Text>:null}
 
+                  <Text style={styles.subTituloModal}>Resumen</Text>
+                  <Text style={styles.textEsp}>{this.state.libro.resumen}</Text>
+                  <Text style={styles.textEsp}>{this.state.libro.resumen}</Text>
+
+                  <Text style={styles.subTituloModal}>Información General</Text>
+                  <Text style={styles.textEsp}>Clasificacion: {this.state.libro.clasificacion}</Text>
+                  <Text style={styles.textEsp}>Edición: {this.state.libro.edicion}</Text>
+                  <Text style={styles.textEsp}>Año: {this.state.libro.anio}</Text>
+                  <Text style={styles.textEsp}>Tomo: {this.state.libro.tomo}</Text>
+                  <Text style={styles.textEsp}>ISBN: {this.state.libro.isbn}</Text>
+                  <Text style={styles.textEsp}>Extensión: {this.state.libro.extension}</Text>
+                  <Text style={styles.textEsp}>Dimensiones: {this.state.libro.dimensiones}</Text>
+                  <Text style={styles.textEsp}>Observaciones: {this.state.libro.observaciones}</Text>
+                  <Text style={styles.textEsp}>Acompañamiento: {this.state.libro.acompaniamiento}</Text>
+
+                  <Text style={styles.subTituloModal}>Lista de Items</Text>
+                  {this.state.codigoItemsModal}
+
+                  <Picker
+                    selectedValue={""+this.state.seleccionPrestamo}
+                    style={{height: 50, alignSelf: 'stretch', textAlign: 'center'}}
+                    onValueChange={(itemValue, itemIndex) =>
+                      this.setState({
+                        seleccionPrestamo:parseInt(itemValue)
+                      })
+                    }>
+                    <Picker.Item label="Sala" value="0" />
+                    <Picker.Item label="Domicilio" value="1" />
+                  </Picker>
+
+                  <TouchableOpacity style={styles.boton} onPress={() => alert(this.state.itemSeleccionado?"Prestando "+this.state.itemSeleccionado.numeroCopia+" para "+(this.state.seleccionPrestamo==0?'Sala':'Domicilio'):'Primero debe escoger un Item.')}>
+                      <Text style={styles.textoBoton}> Acceder </Text>
+                  </TouchableOpacity>
+
+                </View>
+              </View>
+            :null}
+          </ScrollView>
         </Modal>        
             
               {this.state.cargoData?this.state.codigo:null}
+
+              
             
           
         
@@ -183,25 +299,15 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
 
-  tituloSeccion:{
-    fontSize:22,
-    marginLeft:12,
-    marginBottom:5
-  },
+  
 
-  textoSeccion:{
-    fontSize: 15,
-    marginLeft:16,
-    marginBottom:15
-  },
+ 
 
   text:{
     fontSize:30
   },
 
-  textEsp:{
-    marginBottom:5
-  },
+  
 
   Texto : {
     fontSize: altura/23.7,
@@ -241,6 +347,67 @@ const styles = StyleSheet.create({
     color:'blue',
     fontSize:20,
     width:100,
+  },
+
+  tituloSeccion:{
+    fontSize:25,
+    marginLeft:12,
+    marginBottom:5
+  },
+
+  textoSeccion:{
+    fontSize: 15,
+    marginLeft:16,
+    marginBottom:7
+  },
+
+  subTituloModal:{
+    fontSize:23
+  },
+
+  textEsp:{
+    marginBottom:5,
+    fontSize:14
+  },
+  
+  itemDisponible:{
+    backgroundColor:'green',
+    borderRadius:20,
+    padding:15,
+    marginTop:10
+  },
+
+  itemPrestado:{
+    backgroundColor:'red',
+    borderRadius:20,
+    padding:15,
+    marginTop:10
+  },
+
+  itemReservado:{
+    backgroundColor:'blue',
+    borderRadius:20,
+    padding:15,
+    marginTop:10
+  },
+  itemSeleccionado:{
+    backgroundColor:'white',
+    borderRadius:20,
+    padding:15,
+    marginTop:10
+  },
+  boton:{
+    width: ancho/1.2,
+    backgroundColor:'#001970',
+    borderRadius: altura/23.7,
+    marginVertical: altura/59.2,
+    paddingVertical: altura/45.5
+  },
+  textoBoton:{
+    fontSize: 16,
+    fontWeight:'500',
+    color:'#ffffff',
+    textAlign:'center'
   }
 
 })
