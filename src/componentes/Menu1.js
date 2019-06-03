@@ -30,6 +30,7 @@ export default class Menu1 extends Component {
     };
     this.miFuncion = this.miFuncion.bind(this);
     this.cambiarCodigoItemAnterior = this.cambiarCodigoItemAnterior.bind(this);
+    this.pedirLibro = this.pedirLibro.bind(this);
     this.miFuncion();
 }
 cambiarCodigoItemAnterior(){
@@ -50,9 +51,9 @@ cambiarCodigoItemAnterior(){
           });
           
         }}>
-          <Text style={item.disponibilidad==1?styles.itemDisponible:item.disponibilidad==2?styles.itemPrestado:styles.itemReservado}>
+          <Text style={item.disponibilidad==1?styles.itemDisponible:item.disponibilidad==2?styles.itemPedido:item.disponibilidad==3?styles.itemPrestado:styles.itemReservado}>
           Nº{item.numeroCopia}     {item.numeroIngreso+'             '}
-          {item.disponibilidad==1?'Disponible':item.disponibilidad==2?'Prestado':'Reservado'}
+          {item.disponibilidad==1?'Disponible':item.disponibilidad==2?'Pedido':item.disponibilidad==3?'Prestado':'Reservado'}
           </Text>
         </TouchableOpacity>
         :null}
@@ -99,19 +100,18 @@ cambiarCodigoItemAnterior(){
                             <TouchableOpacity onPress={()=>{
 
                               this.cambiarCodigoItemAnterior();
-                              
-                              this.setState({
-                                itemSeleccionado:item,
-                                banderaSeleccionItem:true,
-                                lugarArregloItem: item.numeroCopia-1
-                              },()=>{
-                                //alert('bbbbbbbbbbbbbbbb'+this.state.lugarArregloItem);
-                              });
-                              
+                              if(item.disponibilidad==1){
+                                  this.setState({
+                                    itemSeleccionado:item,
+                                    banderaSeleccionItem:true,
+                                    lugarArregloItem: item.numeroCopia-1
+                                  });
+                              }
+
                             }}>
-                              <Text style={item.disponibilidad==1?styles.itemDisponible:item.disponibilidad==2?styles.itemPrestado:styles.itemReservado}>
+                              <Text style={item.disponibilidad==1?styles.itemDisponible:item.disponibilidad==2?styles.itemPedido:item.disponibilidad==3?styles.itemPrestado:styles.itemReservado}>
                               Nº{item.numeroCopia}     {item.numeroIngreso+'             '}
-                              {item.disponibilidad==1?'Disponible':item.disponibilidad==2?'Prestado':'Reservado'}
+                              {item.disponibilidad==1?'Disponible':item.disponibilidad==2?'Pedido':item.disponibilidad==3?'Prestado':'Reservado'}
                               </Text>
                             </TouchableOpacity>
                             :null}
@@ -168,6 +168,41 @@ cambiarCodigoItemAnterior(){
 
   }
 
+  async pedirLibro(){
+    //alert(this.state.itemSeleccionado.itemId);
+    await fetch('http://bibliotecabackend.herokuapp.com/pedidos?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n',
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        usuarioId: this.props.navigation.getParam('usuario').dni,
+        itemId: this.state.itemSeleccionado.itemId,
+        fechaInicio: "2019-05-28T22:43:00.000",
+        estado: 1,
+        tipo: this.state.seleccionPrestamo
+      }),
+    })//hace el llamado al dominio que se le envió donde retornara respuesta de la funcion
+    .then((response)=>{
+        return response.json();
+    })
+    .then(async (result)=>{
+        
+        this.setState({
+          mostrarModal:false,
+          cargoData:false,
+          itemSeleccionado:null,
+          banderaSeleccionItem:false,
+          codigoItemsModal: []
+        },()=>{
+          this.miFuncion();
+        });
+    });
+    
+  }
+
   
 
   render() {
@@ -193,7 +228,7 @@ cambiarCodigoItemAnterior(){
           }}>
             <Text style={styles.itemSeleccionado}>
             Nº{item.numeroCopia}     {item.numeroIngreso+'             '}
-            {item.disponibilidad==1?'Disponible':item.disponibilidad==2?'Prestado':'Reservado'}
+            {item.disponibilidad==1?'Disponible':item.disponibilidad==2?'Pedido':item.disponibilidad==3?'Prestado':'Reservado'}
             </Text>
           </TouchableOpacity>
           :null}
@@ -217,8 +252,12 @@ cambiarCodigoItemAnterior(){
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{flexDirection:'row'}}>
               <TouchableOpacity style={{marginLeft: 'auto'}} onPress={()=>{
+                this.cambiarCodigoItemAnterior();
                 this.setState({
-                  mostrarModal:false
+                  mostrarModal:false,
+                  itemSeleccionado:null,
+                  banderaSeleccionItem:false,
+
                 });
               }}>
               <Text style={styles.cerrarModalTexto}>Cerrar</Text>
@@ -260,7 +299,45 @@ cambiarCodigoItemAnterior(){
                     <Picker.Item label="Domicilio" value="1" />
                   </Picker>
 
-                  <TouchableOpacity style={styles.boton} onPress={() => alert(this.state.itemSeleccionado?"Prestando "+this.state.itemSeleccionado.numeroCopia+" para "+(this.state.seleccionPrestamo==0?'Sala':'Domicilio'):'Primero debe escoger un Item.')}>
+                  <TouchableOpacity style={styles.boton} onPress={() => {
+                    //alert(this.state.itemSeleccionado?"Prestando "+this.state.itemSeleccionado.numeroCopia+" para "+(this.state.seleccionPrestamo==0?'Sala':'Domicilio'):'Primero debe escoger un Item.');
+                    if(this.state.itemSeleccionado){
+                      if(this.props.navigation.getParam('usuario').estado==0){
+                        Alert.alert(
+                          'Petición de Item',
+                          '¿Está seguro de pedir este libro?',
+                          [
+                            {
+                              text: 'Cancelar',
+                              onPress: () => {},
+                              style: 'cancel',
+                            },
+                            {text: 'Pedir', onPress: () => {
+                                this.pedirLibro();
+                                
+                            }},
+                          ],
+                          {cancelable: false},
+                        );
+                      }else{
+                        if(this.props.navigation.getParam('usuario').estado==1){
+                          alert("El usuario ya ha pedido un Libro");
+                        }else if(this.props.navigation.getParam('usuario').estado==2){
+                          alert("El usuario ya tiene prestado un Libro");
+                        }else{
+                          alert("El usuario ya ha reservado un Libro");
+                        }
+                        
+                      }
+
+                      
+
+                      
+                    }else{
+                      alert("Primero debe escoger un Item.");
+                    }
+                    
+                  }}>
                       <Text style={styles.textoBoton}> Acceder </Text>
                   </TouchableOpacity>
 
@@ -372,6 +449,13 @@ const styles = StyleSheet.create({
   
   itemDisponible:{
     backgroundColor:'green',
+    borderRadius:20,
+    padding:15,
+    marginTop:10
+  },
+
+  itemPedido:{
+    backgroundColor:'orange',
     borderRadius:20,
     padding:15,
     marginTop:10
