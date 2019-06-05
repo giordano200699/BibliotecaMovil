@@ -69,14 +69,17 @@ export default class Perfil extends Component {
           </View>
 
           <View style={styles.seccion}>
-            <Text style={styles.tituloSeccion}>Datos Académicos</Text>
-            <Text style={styles.textoSeccion}>Tipo de usuario : {this.state.tipoUsuario.nombre}</Text>
-            <Text style={styles.textoSeccion}>Estado : Normal</Text>
+            <Text style={styles.tituloSeccion}>Mis Pedidos</Text>
+            <Text style={styles.textoSeccion}>Préstamos activos : {usuario.pedidosActivos}</Text>
+            <Text style={styles.textoSeccion}>Préstamos aceptados : {usuario.pedidosAceptados}</Text>
+            <Text style={styles.textoSeccion}>Préstamos rechazados : {usuario.pedidosRechazados}</Text>
+            {/* <Text style={styles.textoSeccion}>Tipo de usuario : {this.state.tipoUsuario.nombre}</Text> */}
+            {/* <Text style={styles.textoSeccion}>Estado : Normal</Text>
             <Text style={styles.textoSeccion}>Número de Préstamos : 78</Text>
             <Text style={styles.textoSeccion}>Número de Castigos: 2</Text>
             <Text style={styles.textoSeccion}>Temas más buscados : Inteligencia Artificial, Economía, Cálculo I, Física III, Cálculo II</Text>
             <Text style={styles.textoSeccion}>Libros más pedidos : Cálculo Integral, Física III, Economía para la Gestión, Inteligencia Articial, Redes Neuronales</Text>
-            <Text style={styles.textoSeccion}>Calificación: 111 puntos</Text>
+            <Text style={styles.textoSeccion}>Calificación: 111 puntos</Text> */}
           </View>
         </ScrollView>
         //</View>

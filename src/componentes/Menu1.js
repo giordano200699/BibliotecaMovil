@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
   View,
-  Text,
+  Text,TextInput,Button,
   StyleSheet,ScrollView,Dimensions,StatusBar,Image,Alert,TouchableOpacity,Modal,Picker
 } from 'react-native'
 
@@ -16,9 +16,8 @@ export default class Menu1 extends Component {
   constructor(props){//constructor inicial
     super(props);
     this.state = {
-      data:[],
       cargoData:false,
-      codigo:null,
+      codigo:[],
       mostrarModal:false,
       libro: null,
       ruta1:"https://bibliotecabackend.herokuapp.com/archivos/imagen/"+this.props.navigation.state.params.usuario.imagenId+"/1?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n",
@@ -26,12 +25,16 @@ export default class Menu1 extends Component {
       itemSeleccionado: null,
       banderaSeleccionItem:false,
       lugarArregloItem:0,
-      seleccionPrestamo:0
+      seleccionPrestamo:0,
+      valorBusqueda:'',
+      valorBusquedaTrabajado:'',
+      paginado:1,
+      mostrarMas:false
     };
     this.miFuncion = this.miFuncion.bind(this);
     this.cambiarCodigoItemAnterior = this.cambiarCodigoItemAnterior.bind(this);
     this.pedirLibro = this.pedirLibro.bind(this);
-    this.miFuncion();
+    this.miFuncion(1);
 }
 cambiarCodigoItemAnterior(){
   if(this.state.itemSeleccionado){
@@ -62,108 +65,119 @@ cambiarCodigoItemAnterior(){
   }
 }
 
-  async miFuncion(){
+  async miFuncion(paginadoLocal){
     
-
-    await fetch('http://bibliotecabackend.herokuapp.com/libros?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n')//hace el llamado al dominio que se le envió donde retornara respuesta de la funcion
+    
+    await fetch('http://bibliotecabackend.herokuapp.com/libros/paginado/'+paginadoLocal+'?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n',
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        busqueda: this.state.valorBusquedaTrabajado
+      }),
+    })//hace el llamado al dominio que se le envió donde retornara respuesta de la funcion
     .then((response)=>{
         return response.json();
     })
     .then(async (result)=>{
-        var variable = [];
+        var variable = this.state.codigo;
+        var contadorLibros = 1;
         for (let entrada of result) {
 
-          
+          if(contadorLibros != 5){
+            contadorLibros++;
 
-          fetch('http://bibliotecabackend.herokuapp.com/libros/todo/'+entrada.libroId+'?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n')
-          .then((response)=>{
-              return response.json();
-          })
-          .then((result2)=>{
-            //if(entrada.libroId==2){
-              
-              let contador=0;
-              let autores =[];
-              result2.editoriales.forEach((item, index, array) => {
-                    autores.push(
-                      <Text style={styles.estiloTexto}>{item.nombre}</Text>
-                    );
-                    contador++;
-                    
-                    if (contador === result2.editoriales.length) {
-                      var codigoItems = [];
-                      let contador2 = 0;
-                      for (let item of result2.items){
-                        codigoItems.push(
-                          <View>
-                            {item.disponibilidad>0?
-                            <TouchableOpacity onPress={()=>{
-
-                              this.cambiarCodigoItemAnterior();
-                              if(item.disponibilidad==1){
-                                  this.setState({
-                                    itemSeleccionado:item,
-                                    banderaSeleccionItem:true,
-                                    lugarArregloItem: item.numeroCopia-1
-                                  });
-                              }
-
-                            }}>
-                              <Text style={item.disponibilidad==1?styles.itemDisponible:item.disponibilidad==2?styles.itemPedido:item.disponibilidad==3?styles.itemPrestado:styles.itemReservado}>
-                              Nº{item.numeroCopia}     {item.numeroIngreso+'             '}
-                              {item.disponibilidad==1?'Disponible':item.disponibilidad==2?'Pedido':item.disponibilidad==3?'Prestado':'Reservado'}
-                              </Text>
-                            </TouchableOpacity>
-                            :null}
-                          </View>
-                        )
-                        contador2++;
-                      } 
+            fetch('http://bibliotecabackend.herokuapp.com/libros/todo/'+entrada.libroId+'?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n')
+            .then((response)=>{
+                return response.json();
+            })
+            .then((result2)=>{
+                
+                let contador=0;
+                let autores =[];
+                result2.editoriales.forEach((item, index, array) => {
+                      autores.push(
+                        <Text style={styles.estiloTexto}>{item.nombre}</Text>
+                      );
+                      contador++;
                       
-                      variable.push(
-                        <TouchableOpacity style={styles.padreImagen} onPress={()=> {
-                          //this.props.navigation.navigate('InfoLibro',{libro:entrada});
-                          //this.props.navigation.navigate('DrawerOpen');
+                      if (contador === result2.editoriales.length) {
+                        var codigoItems = [];
+                        for (let item of result2.items){
+                            codigoItems.push(
+                              <View>
+                                {item.disponibilidad>0?
+                                <TouchableOpacity onPress={()=>{
+
+                                  this.cambiarCodigoItemAnterior();
+                                  if(item.disponibilidad==1){
+                                      this.setState({
+                                        itemSeleccionado:item,
+                                        banderaSeleccionItem:true,
+                                        lugarArregloItem: item.numeroCopia-1
+                                      });
+                                  }
+
+                                }}>
+                                  <Text style={item.disponibilidad==1?styles.itemDisponible:item.disponibilidad==2?styles.itemPedido:item.disponibilidad==3?styles.itemPrestado:styles.itemReservado}>
+                                  Nº{item.numeroCopia}     {item.numeroIngreso+'             '}
+                                  {item.disponibilidad==1?'Disponible':item.disponibilidad==2?'Pedido':item.disponibilidad==3?'Prestado':'Reservado'}
+                                  </Text>
+                                </TouchableOpacity>
+                                :null}
+                              </View>
+                            )
+                        } 
+                        
+                        variable.push(
+                          <TouchableOpacity style={styles.padreImagen} onPress={()=> {
+                            //this.props.navigation.navigate('InfoLibro',{libro:entrada});
+                            //this.props.navigation.navigate('DrawerOpen');
+                              this.setState({
+                                mostrarModal:true,
+                                libro:entrada,
+                                codigoItemsModal:codigoItems
+                              });
+                            }
+                          }>
+                            <Image style={styles.imagenEstilo} source={{uri:this.state.ruta1}} />
+                            <View >
+                            <Text style={styles.estiloTexto}>{entrada.titulo}</Text>
+                            {autores}
+                            </View>
+                          </TouchableOpacity>
+                          );
+                        this.setState({
+                          codigo:variable
+                        },()=>{
+                          if(entrada.libroId== result[result.length==5?result.length-2:result.length-1].libroId){
                             this.setState({
-                              mostrarModal:true,
-                              libro:entrada,
-                              codigoItemsModal:codigoItems
+                              cargoData:true,
+                              paginado: this.state.paginado+1
                             });
                           }
-                        }>
-                          <Image style={styles.imagenEstilo} source={{uri:this.state.ruta1}} />
-                          <View >
-                          <Text style={styles.estiloTexto}>{entrada.titulo}</Text>
-                          {autores}
-                          </View>
-                        </TouchableOpacity>
-                        );
-                      this.setState({
-                        codigo:variable,
-                      },()=>{
-                        if(entrada.libroId== result[result.length-1].libroId){
-                          this.setState({
-                            cargoData:true
-                          });
-                        }
-                      });
-                    }
-              });
+                        });
+                      }
+                });
 
-            //}
+              //}
+                
               
-            
-              
-          }) 
+                
+            }) 
           
-
+          }else{
+            //Esto es para cuando encuentre el quinto libro si es que lo tiene
+            this.setState({
+              mostrarMas:true
+            });
+          }
           
         }
 
-        this.setState({
-            
-            data:result
-        });
     }) 
 
   }
@@ -345,9 +359,42 @@ cambiarCodigoItemAnterior(){
               </View>
             :null}
           </ScrollView>
-        </Modal>        
-            
+        </Modal>  
+            <View style={{padding:10,flexDirection:'row',flexWrap:'wrap',alignItems: 'center'}} >
+              <TextInput style={{height: 40, width:200, borderColor: 'gray', borderWidth: 1,marginRight:17}}
+               value={this.state.valorBusqueda} onChangeText={(text) => this.setState({valorBusqueda:text})}/>
+              <View style={{width:80,heigth:40}}>
+                <Button title="Buscar" color="#841584" onPress={()=>{
+                  this.setState({
+                    mostrarMas:false,
+                    cargoData:false,
+                    valorBusquedaTrabajado:this.state.valorBusqueda,
+                    paginado:1,
+                    codigo:[]
+                  },()=>{
+                    this.miFuncion(this.state.paginado);
+                  })
+                  }}
+                />
+              </View>
+            </View>
               {this.state.cargoData?this.state.codigo:null}
+              {this.state.mostrarMas?(
+                <View style={{alignItems: 'center',justifyContent: 'center',paddingBottom:20}}>
+                  <View style={{width:200,heigth:40}}>
+                    <Button title="Mostrar más" color="#841584" onPress={()=>{
+                        this.setState({
+                          mostrarMas:false,
+                          cargoData:false
+                        },()=>{
+                          this.miFuncion(this.state.paginado);
+                        })
+                      }}
+                    />
+                  </View>
+                </View>
+              ):null}
+
 
               
             
