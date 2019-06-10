@@ -183,7 +183,9 @@ cambiarCodigoItemAnterior(){
   }
 
   async pedirLibro(){
-    //alert(this.state.itemSeleccionado.itemId);
+    var fechaActualS = new Date();
+    fechaActualS.setTime( fechaActualS.getTime() + -5 * 60 * 60 * 1000 );
+
     await fetch('http://bibliotecabackend.herokuapp.com/pedidos?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n',
     {
       method: 'POST',
@@ -194,7 +196,7 @@ cambiarCodigoItemAnterior(){
       body: JSON.stringify({
         usuarioId: this.props.navigation.getParam('usuario').dni,
         itemId: this.state.itemSeleccionado.itemId,
-        fechaInicio: "2019-05-28T22:43:00.000",
+        fechaInicio: fechaActualS.toJSON(),
         estado: 1,
         tipo: this.state.seleccionPrestamo
       }),
@@ -209,9 +211,11 @@ cambiarCodigoItemAnterior(){
           cargoData:false,
           itemSeleccionado:null,
           banderaSeleccionItem:false,
-          codigoItemsModal: []
+          codigoItemsModal: [],
+          valorBusquedaTrabajado:'',
+          paginado:1
         },()=>{
-          this.miFuncion();
+          this.miFuncion(this.state.paginado);
         });
     });
     
@@ -495,7 +499,7 @@ const styles = StyleSheet.create({
   },
   
   itemDisponible:{
-    backgroundColor:'green',
+    backgroundColor:'#45AEC2',
     borderRadius:20,
     padding:15,
     marginTop:10
@@ -509,7 +513,7 @@ const styles = StyleSheet.create({
   },
 
   itemPrestado:{
-    backgroundColor:'red',
+    backgroundColor:'#FF2929',
     borderRadius:20,
     padding:15,
     marginTop:10
@@ -522,7 +526,7 @@ const styles = StyleSheet.create({
     marginTop:10
   },
   itemSeleccionado:{
-    backgroundColor:'white',
+    backgroundColor:'#3C5BB1',
     borderRadius:20,
     padding:15,
     marginTop:10
