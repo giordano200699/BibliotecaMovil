@@ -1,6 +1,8 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, StatusBar, ScrollView, Dimensions, Image,Alert,TouchableOpacity} from 'react-native';
+import styled from 'styled-components';
+import {Colors} from '../styles'
 
 
 var dimensiones = Dimensions.get('window');
@@ -8,6 +10,37 @@ var altura = dimensiones.height;
 var ancho = dimensiones.width;
 
 
+const Contenedor = styled.View`
+    flex:1;
+    padding:10px 5px;
+    justify-content: center;
+    background-color:#f4f4f4;
+    align-items:center
+`
+const Titulo = styled.Text`
+    font-size:20px;
+    text-align:center;
+
+`
+const Item = styled.View`
+    flex:1;
+    border:1px solid #f7f7f7;
+    margin:2px 0;
+    border-radius:10px;
+    background-color:#fff;
+    width:90%;
+    padding:10px;
+`
+
+const ItemImagen = styled.View`
+    flex:1;
+    border:0px solid #f7f7f7;
+    margin:2px 0;
+    border-radius:10px;
+    background-color:#f4f4f4;
+    width:90%;
+    padding:10px;
+`
 
 
 export default class Perfil extends Component {
@@ -43,44 +76,45 @@ export default class Perfil extends Component {
     return (
         //<View style={styles.container}>
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-          <StatusBar backgroundColor='#0A1970' barStyle='light-content'/>
-
+          <StatusBar  style={styles.statusBar} barStyle='light-content'/>
           <View style={styles.menu}>
             {/* <TouchableOpacity onPress={() => this.regresar()}> 
               <Image style={ styles.imagenBoton } source={require('./../imagenes/flechaIzquierda.png')} /> 
             </TouchableOpacity>  */}
             <Text style={styles.Texto}> Perfil</Text>
           </View>
-          <View style={styles.padreImagen}>
-            <Image style={styles.imagenEstilo} source={{uri:rutaImagen}} />
-          </View>
-          <View style={styles.seccion}>
-            <Text style={styles.tituloSeccion}>Datos Personales</Text>
-            <Text style={styles.textoSeccion}>Nombres : {usuario.nombres}</Text>
-            <Text style={styles.textoSeccion}>Apellidos : {usuario.apellidos}</Text>
-            <Text style={styles.textoSeccion}>Edad : {usuario.edad} años</Text>
-            <Text style={styles.textoSeccion}>Sexo : {usuario.sexo?'Femenino':'Masculino'}</Text>
-            <Text style={styles.textoSeccion}>Dirección : {usuario.direccion}</Text>
-            <Text style={styles.textoSeccion}>DNI : {usuario.dni}</Text>
-            <Text style={styles.textoSeccion}>Teléfono : {usuario.telefonoCasa}</Text>
-            <Text style={styles.textoSeccion}>Móvil : {usuario.telefonoMovil}</Text>
-            <Text style={styles.textoSeccion}>Correo Institucional : {usuario.correoInstitucional}</Text>
-            <Text style={styles.textoSeccion}>Correo Personal : {usuario.correoPersonal}</Text>
-          </View>
+          <Contenedor>
+            <ItemImagen style={styles.padreImagen}>
+              <Image style={styles.imagenEstilo} source={{uri:rutaImagen}} />
+            </ItemImagen>
+            <Item style={styles.shadow}>
+              <Text style={styles.tituloSeccion}>Datos Personales</Text>
+              <Text style={styles.textoSeccion}>Nombres : {usuario.nombres}</Text>
+              <Text style={styles.textoSeccion}>Apellidos : {usuario.apellidos}</Text>
+              <Text style={styles.textoSeccion}>Edad : {usuario.edad} años</Text>
+              <Text style={styles.textoSeccion}>Sexo : {usuario.sexo?'Femenino':'Masculino'}</Text>
+              <Text style={styles.textoSeccion}>Dirección : {usuario.direccion}</Text>
+              <Text style={styles.textoSeccion}>DNI : {usuario.dni}</Text>
+              <Text style={styles.textoSeccion}>Teléfono : {usuario.telefonoCasa}</Text>
+              <Text style={styles.textoSeccion}>Móvil : {usuario.telefonoMovil}</Text>
+              <Text style={styles.textoSeccion}>Correo Institucional : {usuario.correoInstitucional}</Text>
+              <Text style={styles.textoSeccion}>Correo Personal : {usuario.correoPersonal}</Text>
+            </Item>
 
-          <View style={styles.seccion}>
-            <Text style={styles.tituloSeccion}>Mis Pedidos</Text>
-            <Text style={styles.textoSeccion}>Préstamos activos : {usuario.pedidosActivos}</Text>
-            <Text style={styles.textoSeccion}>Préstamos aceptados : {usuario.pedidosAceptados}</Text>
-            <Text style={styles.textoSeccion}>Préstamos rechazados : {usuario.pedidosRechazados}</Text>
-            {/* <Text style={styles.textoSeccion}>Tipo de usuario : {this.state.tipoUsuario.nombre}</Text> */}
-            {/* <Text style={styles.textoSeccion}>Estado : Normal</Text>
-            <Text style={styles.textoSeccion}>Número de Préstamos : 78</Text>
-            <Text style={styles.textoSeccion}>Número de Castigos: 2</Text>
-            <Text style={styles.textoSeccion}>Temas más buscados : Inteligencia Artificial, Economía, Cálculo I, Física III, Cálculo II</Text>
-            <Text style={styles.textoSeccion}>Libros más pedidos : Cálculo Integral, Física III, Economía para la Gestión, Inteligencia Articial, Redes Neuronales</Text>
-            <Text style={styles.textoSeccion}>Calificación: 111 puntos</Text> */}
-          </View>
+            <Item style={styles.shadow}>
+              <Text style={styles.tituloSeccion}>Mis Pedidos</Text>
+              <Text style={styles.textoSeccion}>Préstamos activos : {usuario.pedidosActivos}</Text>
+              <Text style={styles.textoSeccion}>Préstamos aceptados : {usuario.pedidosAceptados}</Text>
+              <Text style={styles.textoSeccion}>Préstamos rechazados : {usuario.pedidosRechazados}</Text>
+              {/* <Text style={styles.textoSeccion}>Tipo de usuario : {this.state.tipoUsuario.nombre}</Text> */}
+              {/* <Text style={styles.textoSeccion}>Estado : Normal</Text>
+              <Text style={styles.textoSeccion}>Número de Préstamos : 78</Text>
+              <Text style={styles.textoSeccion}>Número de Castigos: 2</Text>
+              <Text style={styles.textoSeccion}>Temas más buscados : Inteligencia Artificial, Economía, Cálculo I, Física III, Cálculo II</Text>
+              <Text style={styles.textoSeccion}>Libros más pedidos : Cálculo Integral, Física III, Economía para la Gestión, Inteligencia Articial, Redes Neuronales</Text>
+              <Text style={styles.textoSeccion}>Calificación: 111 puntos</Text> */}
+            </Item>
+          </Contenedor>
         </ScrollView>
         //</View>
     );
@@ -89,17 +123,27 @@ export default class Perfil extends Component {
 
   
 const styles = StyleSheet.create({
+  
   imagenBoton:{
      width:30,
      height:30
   },
+
   container : {
     backgroundColor: '#F0F0F0',
     flex: 1,
   },
 
+  statusBar : {
+    backgroundColor: Colors.primary_dark,
+  },
+
+  shadow:{
+    elevation: 2
+  },
+
   menu:{
-    backgroundColor: '#303f9f',
+    backgroundColor: Colors.primary,
     flexDirection:'row',
     flexWrap:'wrap',
     alignItems: 'center',
@@ -146,7 +190,5 @@ const styles = StyleSheet.create({
     height:150,
     borderRadius: 100
   }
-  
-
 
 });

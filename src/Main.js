@@ -1,6 +1,7 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, StatusBar, ScrollView} from 'react-native';
+import {Colors} from './styles'
 
 /*
 const instructions = Platform.select({
@@ -19,7 +20,7 @@ export default class App extends Component {
     return (
         //<View style={styles.container}>
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-          <StatusBar backgroundColor='#001970' barStyle='light-content'/>
+          <StatusBar style={styles.statusBar} barStyle='light-content'/>
           <Login propsLogin = {this.props}/>
         </ScrollView>
         //</View>
@@ -41,11 +42,15 @@ const styles = StyleSheet.create({
 
 const styles = StyleSheet.create({
   container : {
-    backgroundColor: '#303f9f',
+    backgroundColor: Colors.primary,
     flex: 1
     //flexDirection: 'column',
     //alignItems: 'center',
     //justifyContent: 'center'
+  },
+
+  statusBar : {
+    backgroundColor: Colors.primary_dark,
   }
 
 });

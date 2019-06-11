@@ -4,6 +4,7 @@ import {StyleSheet, Text, View,ScrollView} from 'react-native';
 
 import Logo from '../componentes/Logo';
 import Form from '../componentes/Form';
+import { Colors , General } from '../styles';
 
 
 
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
 
 const styles = StyleSheet.create({
 container : {
-  backgroundColor: '#303f9f',
+  backgroundColor: Colors.primary,
   flex: 1,
   flexDirection: 'column',
   alignItems: 'center',
