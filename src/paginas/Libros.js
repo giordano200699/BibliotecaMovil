@@ -5,6 +5,8 @@ import {
   StyleSheet,ScrollView,Dimensions,StatusBar,Image,Alert,TouchableOpacity,Modal,Picker
 } from 'react-native'
 
+import Cabezera from '../componentes/Cabezera'
+
 
 
 var dimensiones = Dimensions.get('window');
@@ -260,13 +262,12 @@ cambiarCodigoItemAnterior(){
 
     return(
       <ScrollView showsVerticalScrollIndicator={false}>
-        <StatusBar backgroundColor='#0A1970' barStyle='light-content'/>
-        <View style={styles.menu}>
+        <Cabezera navigation={this.props.navigation} title="Lista de Libros" />
+        {/*<View style={styles.menu}>
             <Text style={styles.Texto}> Lista de Libros</Text>
-        </View>
+          </View>*/}
 
-        <Modal visible={this.state.mostrarModal} 
-        >
+        <Modal visible={this.state.mostrarModal}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{flexDirection:'row'}}>
               <TouchableOpacity style={{marginLeft: 'auto'}} onPress={()=>{

@@ -58,8 +58,8 @@ export default class Form extends Component {
       });
       let responseJson = await response.json();
       if(Object.keys(responseJson).length!=2){
-        properties.navigation.navigate('TabStack',{usuario:responseJson[0]});
-        //properties.navigation.navigate('Menu',{usuario:responseJson[0]});
+        //properties.navigation.navigate('TabMenu',{usuario:responseJson[0]});
+        properties.navigation.navigate('DrawerMenu',{usuario:responseJson[0]});
         //properties.navigation.navigate('Perfil',{usuario:responseJson[0]});
       }else{
         Alert.alert(

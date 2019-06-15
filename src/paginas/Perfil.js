@@ -4,6 +4,8 @@ import {StyleSheet, Text, View, StatusBar, ScrollView, Dimensions, Image,Alert,T
 import styled from 'styled-components';
 import {Colors} from '../styles'
 
+import Cabezera from '../componentes/Cabezera'
+
 
 var dimensiones = Dimensions.get('window');
 var altura = dimensiones.height;
@@ -28,7 +30,7 @@ const Item = styled.View`
     margin:2px 0;
     border-radius:10px;
     background-color:#fff;
-    width:90%;
+    width:95%;
     padding:10px;
 `
 
@@ -76,13 +78,13 @@ export default class Perfil extends Component {
     return (
         //<View style={styles.container}>
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-          <StatusBar  style={styles.statusBar} barStyle='light-content'/>
-          <View style={styles.menu}>
-            {/* <TouchableOpacity onPress={() => this.regresar()}> 
+          <Cabezera navigation = {this.props.navigation} title = "Perfil" />
+          {/*<View style={styles.menu}>
+            {<TouchableOpacity onPress={() => this.regresar()}> 
               <Image style={ styles.imagenBoton } source={require('./../imagenes/flechaIzquierda.png')} /> 
-            </TouchableOpacity>  */}
+            </TouchableOpacity>}
             <Text style={styles.Texto}> Perfil</Text>
-          </View>
+          </View>*/}
           <Contenedor>
             <ItemImagen style={styles.padreImagen}>
               <Image style={styles.imagenEstilo} source={{uri:rutaImagen}} />
