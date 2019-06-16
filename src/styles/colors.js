@@ -24,9 +24,9 @@ export const primary_light = '#6E73DC'
 export const primary_dark = '#00227A'
 export const primary_text = '#FFFFFF'
 
-export const secundary = '#E8EAF6'
+export const secundary = '#F5F5F5'
 export const secundary_light = '#FFFFFF'
-export const secundary_dark = '#B6B8C3'
-export const secundary_text = '000000'
+export const secundary_dark = '#DBDBDB' //c2c2c2
+export const secundary_text = '2B2B2B'
 
 export const logoText = 'rgba(255,255,255,0.7)'

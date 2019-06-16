@@ -76,49 +76,54 @@ export default class Perfil extends Component {
     this.llenarTipoUsuario(usuario.tipoUsuarioId);
 
     return (
-        //<View style={styles.container}>
-        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-          <Cabezera navigation = {this.props.navigation} title = "Perfil" />
-          {/*<View style={styles.menu}>
-            {<TouchableOpacity onPress={() => this.regresar()}> 
-              <Image style={ styles.imagenBoton } source={require('./../imagenes/flechaIzquierda.png')} /> 
-            </TouchableOpacity>}
-            <Text style={styles.Texto}> Perfil</Text>
-          </View>*/}
-          <Contenedor>
-            <ItemImagen style={styles.padreImagen}>
-              <Image style={styles.imagenEstilo} source={{uri:rutaImagen}} />
-            </ItemImagen>
-            <Item style={styles.shadow}>
-              <Text style={styles.tituloSeccion}>Datos Personales</Text>
-              <Text style={styles.textoSeccion}>Nombres : {usuario.nombres}</Text>
-              <Text style={styles.textoSeccion}>Apellidos : {usuario.apellidos}</Text>
-              <Text style={styles.textoSeccion}>Edad : {usuario.edad} años</Text>
-              <Text style={styles.textoSeccion}>Sexo : {usuario.sexo?'Femenino':'Masculino'}</Text>
-              <Text style={styles.textoSeccion}>Dirección : {usuario.direccion}</Text>
-              <Text style={styles.textoSeccion}>DNI : {usuario.dni}</Text>
-              <Text style={styles.textoSeccion}>Teléfono : {usuario.telefonoCasa}</Text>
-              <Text style={styles.textoSeccion}>Móvil : {usuario.telefonoMovil}</Text>
-              <Text style={styles.textoSeccion}>Correo Institucional : {usuario.correoInstitucional}</Text>
-              <Text style={styles.textoSeccion}>Correo Personal : {usuario.correoPersonal}</Text>
-            </Item>
+        <View style={{flex:1}}>
+          
+          <View>
+            <Cabezera navigation = {this.props.navigation} title = "Perfil" />
+            {/*<View style={styles.menu}>
+              {<TouchableOpacity onPress={() => this.regresar()}> 
+                <Image style={ styles.imagenBoton } source={require('./../imagenes/flechaIzquierda.png')} /> 
+              </TouchableOpacity>}
+              <Text style={styles.Texto}> Perfil</Text>
+            </View>*/}
+          </View>
 
-            <Item style={styles.shadow}>
-              <Text style={styles.tituloSeccion}>Mis Pedidos</Text>
-              <Text style={styles.textoSeccion}>Préstamos activos : {usuario.pedidosActivos}</Text>
-              <Text style={styles.textoSeccion}>Préstamos aceptados : {usuario.pedidosAceptados}</Text>
-              <Text style={styles.textoSeccion}>Préstamos rechazados : {usuario.pedidosRechazados}</Text>
-              {/* <Text style={styles.textoSeccion}>Tipo de usuario : {this.state.tipoUsuario.nombre}</Text> */}
-              {/* <Text style={styles.textoSeccion}>Estado : Normal</Text>
-              <Text style={styles.textoSeccion}>Número de Préstamos : 78</Text>
-              <Text style={styles.textoSeccion}>Número de Castigos: 2</Text>
-              <Text style={styles.textoSeccion}>Temas más buscados : Inteligencia Artificial, Economía, Cálculo I, Física III, Cálculo II</Text>
-              <Text style={styles.textoSeccion}>Libros más pedidos : Cálculo Integral, Física III, Economía para la Gestión, Inteligencia Articial, Redes Neuronales</Text>
-              <Text style={styles.textoSeccion}>Calificación: 111 puntos</Text> */}
-            </Item>
-          </Contenedor>
-        </ScrollView>
-        //</View>
+          <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+            <Contenedor>
+              <ItemImagen style={styles.padreImagen}>
+                <Image style={styles.imagenEstilo} source={{uri:rutaImagen}} />
+              </ItemImagen>
+              <Item style={styles.shadow}>
+                <Text style={styles.tituloSeccion}>Datos Personales</Text>
+                <Text style={styles.textoSeccion}>Nombres : {usuario.nombres}</Text>
+                <Text style={styles.textoSeccion}>Apellidos : {usuario.apellidos}</Text>
+                <Text style={styles.textoSeccion}>Edad : {usuario.edad} años</Text>
+                <Text style={styles.textoSeccion}>Sexo : {usuario.sexo?'Femenino':'Masculino'}</Text>
+                <Text style={styles.textoSeccion}>Dirección : {usuario.direccion}</Text>
+                <Text style={styles.textoSeccion}>DNI : {usuario.dni}</Text>
+                <Text style={styles.textoSeccion}>Teléfono : {usuario.telefonoCasa}</Text>
+                <Text style={styles.textoSeccion}>Móvil : {usuario.telefonoMovil}</Text>
+                <Text style={styles.textoSeccion}>Correo Institucional : {usuario.correoInstitucional}</Text>
+                <Text style={styles.textoSeccion}>Correo Personal : {usuario.correoPersonal}</Text>
+              </Item>
+
+              <Item style={styles.shadow}>
+                <Text style={styles.tituloSeccion}>Mis Pedidos</Text>
+                <Text style={styles.textoSeccion}>Préstamos activos : {usuario.pedidosActivos}</Text>
+                <Text style={styles.textoSeccion}>Préstamos aceptados : {usuario.pedidosAceptados}</Text>
+                <Text style={styles.textoSeccion}>Préstamos rechazados : {usuario.pedidosRechazados}</Text>
+                {/* <Text style={styles.textoSeccion}>Tipo de usuario : {this.state.tipoUsuario.nombre}</Text> */}
+                {/* <Text style={styles.textoSeccion}>Estado : Normal</Text>
+                <Text style={styles.textoSeccion}>Número de Préstamos : 78</Text>
+                <Text style={styles.textoSeccion}>Número de Castigos: 2</Text>
+                <Text style={styles.textoSeccion}>Temas más buscados : Inteligencia Artificial, Economía, Cálculo I, Física III, Cálculo II</Text>
+                <Text style={styles.textoSeccion}>Libros más pedidos : Cálculo Integral, Física III, Economía para la Gestión, Inteligencia Articial, Redes Neuronales</Text>
+                <Text style={styles.textoSeccion}>Calificación: 111 puntos</Text> */}
+              </Item>
+            </Contenedor>
+          </ScrollView>
+          
+        </View>
     );
   }
 }
