@@ -1,20 +1,51 @@
 import React, { Component } from 'react'
-import {
-  View,
-  Text,TextInput,Button,
-  StyleSheet,ScrollView,Dimensions,StatusBar,Image,Alert,TouchableOpacity,Modal,Picker
-} from 'react-native'
+import { View,Text,TextInput,Button,StyleSheet,ScrollView,Dimensions,StatusBar,Image,Alert,TouchableOpacity,Modal,Picker } from 'react-native'
+import styled from 'styled-components'
 
 import Cabezera from '../componentes/Cabezera'
 import {Colors} from '../styles'
 
-import { SearchBar } from 'react-native-elements';
+import { SearchBar } from 'react-native-elements'
 
 
 
 var dimensiones = Dimensions.get('window');
 var altura = dimensiones.height;
 var ancho = dimensiones.width;
+
+
+const Contenedor = styled.View`
+    flex:1;
+    padding:10px 5px;
+    justify-content: center;
+    background-color:#f4f4f4;
+    align-items:center
+`
+const Titulo = styled.Text`
+    font-size:20px;
+    text-align:center;
+
+`
+const Item = styled.View`
+    flex:1;
+    border:1px solid #f7f7f7;
+    margin:2px 0;
+    border-radius:10px;
+    background-color:#fff;
+    width:95%;
+    padding:10px;
+`
+
+const ItemImagen = styled.View`
+    flex:1;
+    border:0px solid #f7f7f7;
+    margin:2px 0;
+    border-radius:10px;
+    background-color:#f4f4f4;
+    width:90%;
+    padding:10px;
+`
+
 
 export default class Menu1 extends Component {
 
@@ -109,68 +140,91 @@ cambiarCodigoItemAnterior(){
                 
                 let contador=0;
                 let autores =[];
+                
                 result2.editoriales.forEach((item, index, array) => {
-                      autores.push(
-                        <Text style={styles.estiloTexto}>{item.nombre}</Text>
-                      );
-                      contador++;
-                      
-                      if (contador === result2.editoriales.length) {
-                        var codigoItems = [];
-                        for (let item of result2.items){
-                            codigoItems.push(
-                              <View>
-                                {item.disponibilidad>0?
-                                <TouchableOpacity onPress={()=>{
-                                  this.cambiarCodigoItemAnterior();
-                                  if(item.disponibilidad==1){
-                                      this.setState({
-                                        itemSeleccionado:item,
-                                        banderaSeleccionItem:true,
-                                        lugarArregloItem: item.numeroCopia-1
-                                      });
-                                  }
+                  autores.push(
+                    <Text style={styles.estiloTexto}>{item.nombre}</Text>
+                  );
+                  contador++;
+                  
+                  if (contador === result2.editoriales.length) {
+                    var codigoItems = [];
+                    for (let item of result2.items){
+                        codigoItems.push(
+                          <View>
+                            {item.disponibilidad > 0 ?
+                            <TouchableOpacity onPress={()=>{
+                              this.cambiarCodigoItemAnterior();
+                              if(item.disponibilidad==1){
+                                  this.setState({
+                                    itemSeleccionado: item,
+                                    banderaSeleccionItem: true,
+                                    lugarArregloItem: item.numeroCopia - 1
+                                  });
+                              }
 
-                                }}>
-                                  <Text style={item.disponibilidad==1?styles.itemDisponible:item.disponibilidad==2?styles.itemPedido:item.disponibilidad==3?styles.itemPrestado:styles.itemReservado}>
-                                  Nº{item.numeroCopia}     {item.numeroIngreso+'             '}
-                                  {item.disponibilidad==1?'Disponible':item.disponibilidad==2?'Pedido':item.disponibilidad==3?'Prestado':'Reservado'}
-                                  </Text>
-                                </TouchableOpacity>
-                                :null}
-                              </View>
-                            )
-                        } 
-                        
-                        variable.push(
-                          <TouchableOpacity style={styles.padreImagen} onPress={()=> {
-                            //this.props.navigation.navigate('InfoLibro',{libro:entrada});
-                            //this.props.navigation.navigate('DrawerOpen');
-                              this.setState({
-                                mostrarModal:true,
-                                libro:entrada,
-                                codigoItemsModal:codigoItems
-                              });
-                            }
-                          }>
-                            <Image style={styles.imagenEstilo} source={{uri:this.state.ruta1}} />
-                            <View >
-                            <Text style={styles.estiloTexto}>{entrada.titulo}</Text>
-                            {autores}
-                            </View>
-                          </TouchableOpacity>
-                          );
-                        this.setState({
-                          codigo:variable
-                        },()=>{
-                          if(entrada.libroId== result[result.length==5?result.length-2:result.length-1].libroId){
+                            }}>
+                              <Text style={item.disponibilidad==1?styles.itemDisponible:item.disponibilidad==2?styles.itemPedido:item.disponibilidad==3?styles.itemPrestado:styles.itemReservado}>
+                              Nº{item.numeroCopia}     {item.numeroIngreso+'             '}
+                              {item.disponibilidad==1?'Disponible':item.disponibilidad==2?'Pedido':item.disponibilidad==3?'Prestado':'Reservado'}
+                              </Text>
+                            </TouchableOpacity>
+                            :null}
+                          </View>
+                        )
+                    } 
+                    
+                    variable.push(
+                      /*<TouchableOpacity style={styles.padreImagen} onPress={()=> {
+                        //this.props.navigation.navigate('InfoLibro',{libro:entrada});
+                        //this.props.navigation.navigate('DrawerOpen');
+                          this.setState({
+                            mostrarModal : true,
+                            libro : entrada,
+                            codigoItemsModal : codigoItems
+                          });
+                        }
+                      }>
+                        <Image style={styles.imagenEstilo} source={{uri:this.state.ruta1}} />
+                        <View >
+                        <Text style={styles.estiloTexto}>{entrada.titulo}</Text>
+                        {autores}
+                        </View>
+                      </TouchableOpacity>*/
+                      
+                      <Item /*style={styles.shadow}*/>
+                        <TouchableOpacity style={styles.padreImagen} onPress={()=> {
+                          //this.props.navigation.navigate('InfoLibro',{libro:entrada});
+                          //this.props.navigation.navigate('DrawerOpen');
                             this.setState({
-                              cargoData:true,
-                              paginado: this.state.paginado+1
+                              mostrarModal : true,
+                              libro : entrada,
+                              codigoItemsModal : codigoItems
                             });
                           }
-                        });
+                        }>
+                          <Image style={styles.imagenEstilo} source={{uri:this.state.ruta1}} />
+                          <View >
+                          <Text style={styles.estiloTexto}>{entrada.titulo}</Text>
+                          {autores}
+                          </View>
+                        </TouchableOpacity>
+                      </Item>
+                    
+                      );
+
+                    this.setState({
+                      codigo: variable
+                    }, ()=>{
+                        if(entrada.libroId == result[result.length == 5 ? result.length - 2 : result.length - 1].libroId){
+                          this.setState({
+                            cargoData: true,
+                            paginado: this.state.paginado+1
+                          });
+                        }
                       }
+                    );
+                  }
                 });
               //}                             
             }) 
@@ -277,169 +331,170 @@ cambiarCodigoItemAnterior(){
         </View>
         
         <ScrollView showsVerticalScrollIndicator={false}>
-          
-          <Modal visible={this.state.mostrarModal}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              
-              <View style={{flexDirection:'row'}}>
-                <TouchableOpacity style={{marginLeft: 'auto'}} onPress={()=>{
-                  this.cambiarCodigoItemAnterior();
-                  this.setState({
-                    mostrarModal:false,
-                    itemSeleccionado:null,
-                    banderaSeleccionItem:false,
-                  });
-                }}>
-                <Text style={styles.cerrarModalTexto}>Cerrar</Text>
-                </TouchableOpacity>
-              </View>
-
-              {this.state.libro?
-                <View style={styles.container}>
-                  <View style={styles.containerModal}>
-                    <Text style={styles.tituloSeccion}>{this.state.libro.titulo}</Text>
-                    {this.state.libro.tituloSecundario?<Text style={styles.textoSeccion} >{this.state.libro.tituloSecundario}</Text>:null}
-
-                    <Text style={styles.subTituloModal}>Resumen</Text>
-                    <Text style={styles.textEsp}>{this.state.libro.resumen}</Text>
-                    <Text style={styles.textEsp}>{this.state.libro.resumen}</Text>
-
-                    <Text style={styles.subTituloModal}>Información General</Text>
-                    <Text style={styles.textEsp}>Clasificacion: {this.state.libro.clasificacion}</Text>
-                    <Text style={styles.textEsp}>Edición: {this.state.libro.edicion}</Text>
-                    <Text style={styles.textEsp}>Año: {this.state.libro.anio}</Text>
-                    <Text style={styles.textEsp}>Tomo: {this.state.libro.tomo}</Text>
-                    <Text style={styles.textEsp}>ISBN: {this.state.libro.isbn}</Text>
-                    <Text style={styles.textEsp}>Extensión: {this.state.libro.extension}</Text>
-                    <Text style={styles.textEsp}>Dimensiones: {this.state.libro.dimensiones}</Text>
-                    <Text style={styles.textEsp}>Observaciones: {this.state.libro.observaciones}</Text>
-                    <Text style={styles.textEsp}>Acompañamiento: {this.state.libro.acompaniamiento}</Text>
-
-                    <Text style={styles.subTituloModal}>Lista de Items</Text>
-                    {this.state.codigoItemsModal}
-
-                    <Picker
-                      selectedValue={""+this.state.seleccionPrestamo}
-                      style={{height: 50, alignSelf: 'stretch', textAlign: 'center'}}
-                      onValueChange={(itemValue, itemIndex) =>
-                        this.setState({
-                          seleccionPrestamo:parseInt(itemValue)
-                        })
-                      }>
-                      <Picker.Item label="Sala" value="0" />
-                      <Picker.Item label="Domicilio" value="1" />
-                    </Picker>
-
-                    <TouchableOpacity style={styles.boton} onPress={() => {
-                      //alert(this.state.itemSeleccionado?"Prestando "+this.state.itemSeleccionado.numeroCopia+" para "+(this.state.seleccionPrestamo==0?'Sala':'Domicilio'):'Primero debe escoger un Item.');
-                      if(this.state.itemSeleccionado){
-                        if(this.props.navigation.getParam('usuario').estado==0){
-                          Alert.alert(
-                            'Petición de Item',
-                            '¿Está seguro de pedir este libro?',
-                            [
-                              {
-                                text: 'Cancelar',
-                                onPress: () => {},
-                                style: 'cancel',
-                              },
-                              {text: 'Pedir', onPress: () => {
-                                  this.pedirLibro();
-                                  
-                              }},
-                            ],
-                            {cancelable: false},
-                          );
-                        } else{
-                            if(this.props.navigation.getParam('usuario').estado==1){
-                              alert("El usuario ya ha pedido un Libro");
-                            }else if(this.props.navigation.getParam('usuario').estado==2){
-                              alert("El usuario ya tiene prestado un Libro");
-                            }else{
-                              alert("El usuario ya ha reservado un Libro");
-                            }    
-                        }
-                      } else{
-                        alert("Primero debe escoger un Item.");
-                      }
-                      
-                    }}>
-                        <Text style={styles.textoBoton}> Acceder </Text>
-                    </TouchableOpacity>
-
-                  </View>
-                </View>
-              :null}
-
-            </ScrollView>
-          </Modal> 
-          
-          <View style = {styles.containerSearch}>
-            <View style = {styles.boxSearch}>
-              <SearchBar
-                lightTheme
-                round
-                placeholder = "Buscar..."
-                containerStyle = {{backgroundColor: Colors.secundary_light, borderBottomColor: 'transparent'}}
-                inputStyle = {{backgroundColor: Colors.secundary}}
-                inputContainerStyle = {{backgroundColor: Colors.secundary}}
-
-                onChangeText = {(text) => this.setState({valorBusqueda:text})}
-                value = {this.state.valorBusqueda}
-              />
-            </View>
-            <View style = {styles.boxButtom}>
-              <TouchableOpacity style = {styles.buttomSearch} activeOpacity = { .5 } onPress={() => {
-                this.setState({
-                  mostrarMas: false,
-                  cargoData: false,
-                  valorBusquedaTrabajado: this.state.valorBusqueda,
-                  paginado: 1,
-                  codigo: []
-                } , () => {this.miFuncion(this.state.paginado);} )
-              }}>
-                <Text style={styles.textButtom}> Buscar </Text>
-              </TouchableOpacity>
-            </View>
-          
-          </View>
-          
-          {/*
-          <View style={{padding:10,flexDirection:'row',flexWrap:'wrap',alignItems: 'center'}} >
-            <TextInput style={{height: 40, width:200, borderColor: 'gray', borderWidth: 1,marginRight:17}}
-              value = {this.state.valorBusqueda} onChangeText={(text) => this.setState({valorBusqueda:text})}/>
-            <View style={{width:80,heigth:40}}>
-              <Button title="Buscar" color="#841584" onPress={() => {
-                this.setState({
-                  mostrarMas: false,
-                  cargoData: false,
-                  valorBusquedaTrabajado: this.state.valorBusqueda,
-                  paginado: 1,
-                  codigo: []
-                } , () => {this.miFuncion(this.state.paginado);} )
-              }}/>
-            </View>
-          </View>
-          */}
-          
-          {this.state.cargoData ? this.state.codigo : null}
-          
-          {this.state.mostrarMas ? (
-            <View style = {{alignItems: 'center',justifyContent: 'center',paddingBottom:20}}>
-              <View style = {{width:200,heigth:40}}>
-                <Button title = "Mostrar más" color="#841584" onPress={()=>{
+          <Contenedor>
+            <Modal visible={this.state.mostrarModal}>
+              <ScrollView showsVerticalScrollIndicator={false}>
+                
+                <View style={{flexDirection:'row'}}>
+                  <TouchableOpacity style={{marginLeft: 'auto'}} onPress={()=>{
+                    this.cambiarCodigoItemAnterior();
                     this.setState({
-                      mostrarMas: false,
-                      cargoData: false
-                    },()=>{
-                      this.miFuncion(this.state.paginado);
-                    })
-                  }}
+                      mostrarModal:false,
+                      itemSeleccionado:null,
+                      banderaSeleccionItem:false,
+                    });
+                  }}>
+                  <Text style={styles.cerrarModalTexto}>Cerrar</Text>
+                  </TouchableOpacity>
+                </View>
+
+                {this.state.libro?
+                  <View style={styles.container}>
+                    <View style={styles.containerModal}>
+                      <Text style={styles.tituloSeccion}>{this.state.libro.titulo}</Text>
+                      {this.state.libro.tituloSecundario?<Text style={styles.textoSeccion} >{this.state.libro.tituloSecundario}</Text>:null}
+
+                      <Text style={styles.subTituloModal}>Resumen</Text>
+                      <Text style={styles.textEsp}>{this.state.libro.resumen}</Text>
+                      <Text style={styles.textEsp}>{this.state.libro.resumen}</Text>
+
+                      <Text style={styles.subTituloModal}>Información General</Text>
+                      <Text style={styles.textEsp}>Clasificacion: {this.state.libro.clasificacion}</Text>
+                      <Text style={styles.textEsp}>Edición: {this.state.libro.edicion}</Text>
+                      <Text style={styles.textEsp}>Año: {this.state.libro.anio}</Text>
+                      <Text style={styles.textEsp}>Tomo: {this.state.libro.tomo}</Text>
+                      <Text style={styles.textEsp}>ISBN: {this.state.libro.isbn}</Text>
+                      <Text style={styles.textEsp}>Extensión: {this.state.libro.extension}</Text>
+                      <Text style={styles.textEsp}>Dimensiones: {this.state.libro.dimensiones}</Text>
+                      <Text style={styles.textEsp}>Observaciones: {this.state.libro.observaciones}</Text>
+                      <Text style={styles.textEsp}>Acompañamiento: {this.state.libro.acompaniamiento}</Text>
+
+                      <Text style={styles.subTituloModal}>Lista de Items</Text>
+                      {this.state.codigoItemsModal}
+
+                      <Picker
+                        selectedValue={""+this.state.seleccionPrestamo}
+                        style={{height: 50, alignSelf: 'stretch', textAlign: 'center'}}
+                        onValueChange={(itemValue, itemIndex) =>
+                          this.setState({
+                            seleccionPrestamo:parseInt(itemValue)
+                          })
+                        }>
+                        <Picker.Item label="Sala" value="0" />
+                        <Picker.Item label="Domicilio" value="1" />
+                      </Picker>
+
+                      <TouchableOpacity style={styles.boton} onPress={() => {
+                        //alert(this.state.itemSeleccionado?"Prestando "+this.state.itemSeleccionado.numeroCopia+" para "+(this.state.seleccionPrestamo==0?'Sala':'Domicilio'):'Primero debe escoger un Item.');
+                        if(this.state.itemSeleccionado){
+                          if(this.props.navigation.getParam('usuario').estado==0){
+                            Alert.alert(
+                              'Petición de Item',
+                              '¿Está seguro de pedir este libro?',
+                              [
+                                {
+                                  text: 'Cancelar',
+                                  onPress: () => {},
+                                  style: 'cancel',
+                                },
+                                {text: 'Pedir', onPress: () => {
+                                    this.pedirLibro();
+                                    
+                                }},
+                              ],
+                              {cancelable: false},
+                            );
+                          } else{
+                              if(this.props.navigation.getParam('usuario').estado==1){
+                                alert("El usuario ya ha pedido un Libro");
+                              }else if(this.props.navigation.getParam('usuario').estado==2){
+                                alert("El usuario ya tiene prestado un Libro");
+                              }else{
+                                alert("El usuario ya ha reservado un Libro");
+                              }    
+                          }
+                        } else{
+                          alert("Primero debe escoger un Item.");
+                        }
+                        
+                      }}>
+                          <Text style={styles.textoBoton}> Acceder </Text>
+                      </TouchableOpacity>
+
+                    </View>
+                  </View>
+                :null}
+
+              </ScrollView>
+            </Modal> 
+            
+            <View style = {styles.containerSearch}>
+              <View style = {styles.boxSearch}>
+                <SearchBar
+                  lightTheme
+                  round
+                  placeholder = "Buscar..."
+                  containerStyle = {{backgroundColor: Colors.secundary_light, borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
+                  inputStyle = {{backgroundColor: Colors.secundary}}
+                  inputContainerStyle = {{backgroundColor: Colors.secundary}}
+
+                  onChangeText = {(text) => this.setState({valorBusqueda:text})}
+                  value = {this.state.valorBusqueda}
                 />
               </View>
+              <View style = {styles.boxButtom}>
+                <TouchableOpacity style = {styles.buttomSearch} activeOpacity = { .5 } onPress={() => {
+                  this.setState({
+                    mostrarMas: false,
+                    cargoData: false,
+                    valorBusquedaTrabajado: this.state.valorBusqueda,
+                    paginado: 1,
+                    codigo: []
+                  } , () => {this.miFuncion(this.state.paginado);} )
+                }}>
+                  <Text style={styles.textButtom}> Buscar </Text>
+                </TouchableOpacity>
+              </View>
+            
             </View>
-          ) : null}
-  
+            
+            {/*
+            <View style={{padding:10,flexDirection:'row',flexWrap:'wrap',alignItems: 'center'}} >
+              <TextInput style={{height: 40, width:200, borderColor: 'gray', borderWidth: 1,marginRight:17}}
+                value = {this.state.valorBusqueda} onChangeText={(text) => this.setState({valorBusqueda:text})}/>
+              <View style={{width:80,heigth:40}}>
+                <Button title="Buscar" color="#841584" onPress={() => {
+                  this.setState({
+                    mostrarMas: false,
+                    cargoData: false,
+                    valorBusquedaTrabajado: this.state.valorBusqueda,
+                    paginado: 1,
+                    codigo: []
+                  } , () => {this.miFuncion(this.state.paginado);} )
+                }}/>
+              </View>
+            </View>
+            */}
+            
+            {this.state.cargoData ? this.state.codigo : null}
+            
+            {this.state.mostrarMas ? (
+              <ItemImagen style = {{alignItems: 'center', justifyContent: 'center', paddingBottom:20}}>
+                <View style = {{width:200, heigth:40}}>
+                  <Button title = "Mostrar más" color={Colors.primary} onPress={()=>{
+                      this.setState({
+                        mostrarMas: false,
+                        cargoData: false
+                      },()=>{
+                        this.miFuncion(this.state.paginado);
+                      })
+                    }}
+                  />
+                </View>
+              </ItemImagen>
+            ) : null}
+
+          </Contenedor>
         </ScrollView>
       
       </View>
@@ -467,7 +522,10 @@ const styles = StyleSheet.create({
   containerSearch:{
     flexDirection: 'row',
     borderBottomColor: Colors.secundary_dark,
-    borderBottomWidth: 1.5,
+    borderTopColor: Colors.secundary_dark,
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
+    backgroundColor: '#FFFFFF'
   },
 
   boxButtom: {
@@ -477,7 +535,9 @@ const styles = StyleSheet.create({
     marginTop: 13,
     marginBottom: 13,
     justifyContent: 'center',
+    backgroundColor: '#FFFFFF'
   },
+
   boxSearch: {
     flex: 3,
   },
@@ -497,6 +557,23 @@ const styles = StyleSheet.create({
     textAlign:'center',    
   },
 
+  shadow:{
+    elevation: 2
+  },
+
+  padreImagen:{
+    backgroundColor: '#fff',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    paddingTop: 10,
+    paddingLeft: 15,
+    paddingLeft: 15,
+    paddingBottom: 10,
+    flexDirection:'row'
+  },
+
+  //RevisarLuego
+
   text:{
     fontSize:30
   },
@@ -513,14 +590,6 @@ const styles = StyleSheet.create({
     flexWrap:'wrap',
     alignItems: 'center',
     paddingLeft:12
-  },
-  padreImagen:{
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    paddingTop: 20,
-    paddingLeft:15,
-    paddingBottom: 20,
-    flexDirection:'row'
   },
 
   imagenEstilo:{

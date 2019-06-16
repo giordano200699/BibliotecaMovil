@@ -93,7 +93,7 @@ export default class Perfil extends Component {
               <ItemImagen style={styles.padreImagen}>
                 <Image style={styles.imagenEstilo} source={{uri:rutaImagen}} />
               </ItemImagen>
-              <Item style={styles.shadow}>
+              <Item /*style={styles.shadow}*/>
                 <Text style={styles.tituloSeccion}>Datos Personales</Text>
                 <Text style={styles.textoSeccion}>Nombres : {usuario.nombres}</Text>
                 <Text style={styles.textoSeccion}>Apellidos : {usuario.apellidos}</Text>
@@ -107,7 +107,7 @@ export default class Perfil extends Component {
                 <Text style={styles.textoSeccion}>Correo Personal : {usuario.correoPersonal}</Text>
               </Item>
 
-              <Item style={styles.shadow}>
+              <Item /*style={styles.shadow}*/>
                 <Text style={styles.tituloSeccion}>Mis Pedidos</Text>
                 <Text style={styles.textoSeccion}>Préstamos activos : {usuario.pedidosActivos}</Text>
                 <Text style={styles.textoSeccion}>Préstamos aceptados : {usuario.pedidosAceptados}</Text>
@@ -122,7 +122,7 @@ export default class Perfil extends Component {
               </Item>
             </Contenedor>
           </ScrollView>
-          
+
         </View>
     );
   }
