@@ -19,14 +19,26 @@ export const selected = thoughtbotRed
 export const unselected = lightGray
 
 
-export const primary = '#3849AB'
-export const primary_light = '#6E73DC'
-export const primary_dark = '#00227A'
+export const primary = '#3949AB'
+export const primary_light = '#5C6BC0'
+export const primary_dark = '#00227B'
 export const primary_text = '#FFFFFF'
 
 export const secundary = '#F5F5F5'
 export const secundary_light = '#FFFFFF'
-export const secundary_dark = '#DBDBDB' //c2c2c2
-export const secundary_text = '2B2B2B'
+export const secundary_dark = '#BDBDBD'//'#DBDBDB' //c2c2c2
+export const secundary_dark2 = '#DBDBDB'
+export const secundary_text = '#2B2B2B'
+
+export const tertiary = '#424242'
+export const tertiary_light = '#757575'
+export const tertiary_dark = '#212121' //c2c2c2
+export const tertiary_text = '#FFFFFF'
+
+export const libroDisponible = '#C5CAE9'//'#E8EAF6'
+export const libroSeleccionado = '#7986CB' //'#3949AB'
+export const libroPedido = '#FFE082'//'#FFF8E1' //'#7986CB'
+export const libroNoDisponible =  '#EF9A9A'//'#FFEBEE' //'#1A237E'
+
 
 export const logoText = 'rgba(255,255,255,0.7)'

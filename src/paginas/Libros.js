@@ -6,6 +6,7 @@ import Cabezera from '../componentes/Cabezera'
 import {Colors} from '../styles'
 
 import { SearchBar } from 'react-native-elements'
+import Icon from 'react-native-vector-icons/AntDesign';
 
 
 
@@ -34,6 +35,14 @@ const Item = styled.View`
     background-color:#fff;
     width:95%;
     padding:10px;
+`
+const ItemModal = styled.View`
+    flex:1;
+    border:1px solid #f7f7f7;
+    margin:2px 0;
+    border-radius:10px;
+    background-color:#fff;
+    width:95%;
 `
 
 const ItemImagen = styled.View`
@@ -164,9 +173,9 @@ cambiarCodigoItemAnterior(){
                               }
 
                             }}>
-                              <Text style={item.disponibilidad==1?styles.itemDisponible:item.disponibilidad==2?styles.itemPedido:item.disponibilidad==3?styles.itemPrestado:styles.itemReservado}>
-                              Nº{item.numeroCopia}     {item.numeroIngreso+'             '}
-                              {item.disponibilidad==1?'Disponible':item.disponibilidad==2?'Pedido':item.disponibilidad==3?'Prestado':'Reservado'}
+                              <Text style={item.disponibilidad == 1 ? styles.itemDisponible : item.disponibilidad == 2 ? styles.itemPedido : item.disponibilidad == 3 ? styles.itemPrestado : styles.itemReservado}>
+                              Nº{item.numeroCopia}     {item.numeroIngreso + '             '}
+                              {item.disponibilidad == 1 ? 'Disponible' : item.disponibilidad == 2 ? 'Pedido' : item.disponibilidad == 3 ? 'Prestado' : 'Reservado'}
                               </Text>
                             </TouchableOpacity>
                             :null}
@@ -321,7 +330,7 @@ cambiarCodigoItemAnterior(){
     }
 
     return(
-      <View style={{flex:1}}>
+      <View style={{flex:1, backgroundColor: '#f4f4f4'}}>
         
         <View>
           <Cabezera navigation={this.props.navigation} title="Lista de Libros" />
@@ -332,9 +341,44 @@ cambiarCodigoItemAnterior(){
         
         <ScrollView showsVerticalScrollIndicator={false}>
           <Contenedor>
-            <Modal visible={this.state.mostrarModal}>
-              <ScrollView showsVerticalScrollIndicator={false}>
+            <Modal visible = {this.state.mostrarModal}
+                  //Al parecer con esto al presionar el boton de atras el modal se cierra
+                  onRequestClose={() => {  this.cambiarCodigoItemAnterior();
+                    this.setState({
+                      mostrarModal:false,
+                      itemSeleccionado:null,
+                      banderaSeleccionItem:false,
+                    }); } 
+                  }>
+
+              {this.state.libro ? 
+              <View style = {styles.containerHeaderModal}> 
+                <View style = {styles.boxClose}>     
+                </View>
+
+                <View style = {styles.boxTittle}>
+                  <Text style={styles.tituloSeccion}>{this.state.libro.titulo}</Text>
+                  {this.state.libro.tituloSecundario ? <Text style={styles.textoSeccion}> {this.state.libro.tituloSecundario} </Text> : null}
+                </View>
+
+                <View style = {styles.boxClose}>
+                  <TouchableOpacity activeOpacity = { .5 } onPress={() => {
+                    this.cambiarCodigoItemAnterior();
+                    this.setState({
+                      mostrarModal:false,
+                      itemSeleccionado:null,
+                      banderaSeleccionItem:false,
+                    });
+                  }}>
+                    <Icon name = "close" size={22} /*color = '#424242'*/ color = {Colors.secundary_light} />
+                  </TouchableOpacity>
+                </View> 
+              </View>
+              : null}
+
+              <ScrollView showsVerticalScrollIndicator = {false}>
                 
+                {/*
                 <View style={{flexDirection:'row'}}>
                   <TouchableOpacity style={{marginLeft: 'auto'}} onPress={()=>{
                     this.cambiarCodigoItemAnterior();
@@ -344,45 +388,85 @@ cambiarCodigoItemAnterior(){
                       banderaSeleccionItem:false,
                     });
                   }}>
-                  <Text style={styles.cerrarModalTexto}>Cerrar</Text>
+                  <Text style={styles.cerrarModalTexto}> x </Text>
                   </TouchableOpacity>
-                </View>
+                </View>*/}
 
-                {this.state.libro?
+                {this.state.libro ?
+                  <Contenedor>
+                  {/*
                   <View style={styles.container}>
                     <View style={styles.containerModal}>
+                  
                       <Text style={styles.tituloSeccion}>{this.state.libro.titulo}</Text>
-                      {this.state.libro.tituloSecundario?<Text style={styles.textoSeccion} >{this.state.libro.tituloSecundario}</Text>:null}
+                      {this.state.libro.tituloSecundario ? <Text style={styles.textoSeccion}> {this.state.libro.tituloSecundario} </Text> : null}
+                    */}
+                      
+                      <ItemModal style={{flexDirection: 'column'}}>
+                        <View style={styles.itemH} >
+                          <Text style={styles.subTituloModal}>Resumen</Text>
+                        </View>
+                        <View style={styles.itemB} >
+                          <Text style={styles.textEsp}>{this.state.libro.resumen}</Text>
+                          <Text style={styles.textEsp}>{this.state.libro.resumen}</Text>
+                        </View>      
+                      </ItemModal>
 
-                      <Text style={styles.subTituloModal}>Resumen</Text>
-                      <Text style={styles.textEsp}>{this.state.libro.resumen}</Text>
-                      <Text style={styles.textEsp}>{this.state.libro.resumen}</Text>
+                      {/*
+                      <View style={styles.contenedorItem}>
+                        <View style={styles.itemH} >
+                          <Text style={styles.subTituloModal}>Resumen</Text>
+                        </View>
+                        <View style={styles.itemB} >
+                          <Text style={styles.textEsp}>{this.state.libro.resumen}</Text>
+                          <Text style={styles.textEsp}>{this.state.libro.resumen}</Text>
+                        </View>       
+                      </View>*/}
 
-                      <Text style={styles.subTituloModal}>Información General</Text>
-                      <Text style={styles.textEsp}>Clasificacion: {this.state.libro.clasificacion}</Text>
-                      <Text style={styles.textEsp}>Edición: {this.state.libro.edicion}</Text>
-                      <Text style={styles.textEsp}>Año: {this.state.libro.anio}</Text>
-                      <Text style={styles.textEsp}>Tomo: {this.state.libro.tomo}</Text>
-                      <Text style={styles.textEsp}>ISBN: {this.state.libro.isbn}</Text>
-                      <Text style={styles.textEsp}>Extensión: {this.state.libro.extension}</Text>
-                      <Text style={styles.textEsp}>Dimensiones: {this.state.libro.dimensiones}</Text>
-                      <Text style={styles.textEsp}>Observaciones: {this.state.libro.observaciones}</Text>
-                      <Text style={styles.textEsp}>Acompañamiento: {this.state.libro.acompaniamiento}</Text>
+                      <ItemModal style={{flexDirection: 'column'}}>
+                        <View style={styles.itemH} >
+                          <Text style={styles.subTituloModal}>Información General</Text>
+                        </View>
+                        <View style={styles.itemB} >
+                          <Text style={styles.textEsp}>Clasificacion: {this.state.libro.clasificacion}</Text>
+                          <Text style={styles.textEsp}>Edición: {this.state.libro.edicion}</Text>
+                          <Text style={styles.textEsp}>Año: {this.state.libro.anio}</Text>
+                          <Text style={styles.textEsp}>Tomo: {this.state.libro.tomo}</Text>
+                          <Text style={styles.textEsp}>ISBN: {this.state.libro.isbn}</Text>
+                          <Text style={styles.textEsp}>Extensión: {this.state.libro.extension}</Text>
+                          <Text style={styles.textEsp}>Dimensiones: {this.state.libro.dimensiones}</Text>
+                          <Text style={styles.textEsp}>Observaciones: {this.state.libro.observaciones}</Text>
+                          <Text style={styles.textEsp}>Acompañamiento: {this.state.libro.acompaniamiento}</Text>           
+                        </View>
+                      </ItemModal>
 
-                      <Text style={styles.subTituloModal}>Lista de Items</Text>
-                      {this.state.codigoItemsModal}
+                      <ItemModal style={{flexDirection: 'column'}}>
+                        <View style={styles.itemH} >
+                          <Text style={styles.subTituloModal}>Lista de Items</Text>
+                        </View>
+                        <View style={styles.itemB} >
+                          {this.state.codigoItemsModal}
+                        </View>                    
+                      </ItemModal>
 
-                      <Picker
-                        selectedValue={""+this.state.seleccionPrestamo}
-                        style={{height: 50, alignSelf: 'stretch', textAlign: 'center'}}
-                        onValueChange={(itemValue, itemIndex) =>
-                          this.setState({
-                            seleccionPrestamo:parseInt(itemValue)
-                          })
-                        }>
-                        <Picker.Item label="Sala" value="0" />
-                        <Picker.Item label="Domicilio" value="1" />
-                      </Picker>
+                      <ItemModal style={{flexDirection: 'column'}}>
+                        <View style={styles.itemH} >
+                          <Text style={styles.subTituloModal}>Solicitar Prestamo</Text>
+                        </View>
+                        <View style={styles.itemB} >
+                          <Picker
+                            selectedValue = {""+this.state.seleccionPrestamo}
+                            style = {{height: 50, alignSelf: 'stretch', textAlign: 'center'}}
+                            onValueChange = {(itemValue, itemIndex) =>
+                              this.setState({
+                                seleccionPrestamo:parseInt(itemValue)
+                              })
+                            }>
+                            <Picker.Item label = "Sala" value="0" />
+                            <Picker.Item label = "Domicilio" value="1" />
+                          </Picker>    
+                        </View>     
+                      </ItemModal>
 
                       <TouchableOpacity style={styles.boton} onPress={() => {
                         //alert(this.state.itemSeleccionado?"Prestando "+this.state.itemSeleccionado.numeroCopia+" para "+(this.state.seleccionPrestamo==0?'Sala':'Domicilio'):'Primero debe escoger un Item.');
@@ -418,12 +502,13 @@ cambiarCodigoItemAnterior(){
                         }
                         
                       }}>
-                          <Text style={styles.textoBoton}> Acceder </Text>
+                          <Text style={styles.textoBoton}> Solicitar </Text>
                       </TouchableOpacity>
-
+                    {/*
                     </View>
-                  </View>
-                :null}
+                  </View>*/}
+                  </Contenedor>
+                : null}
 
               </ScrollView>
             </Modal> 
@@ -521,8 +606,8 @@ const styles = StyleSheet.create({
 
   containerSearch:{
     flexDirection: 'row',
-    borderBottomColor: Colors.secundary_dark,
-    borderTopColor: Colors.secundary_dark,
+    borderBottomColor: Colors.secundary_dark2,
+    borderTopColor: Colors.secundary_dark2,
     borderBottomWidth: 1,
     borderTopWidth: 1,
     backgroundColor: '#FFFFFF'
@@ -572,7 +657,64 @@ const styles = StyleSheet.create({
     flexDirection:'row'
   },
 
-  //RevisarLuego
+  containerHeaderModal:{
+    flexDirection: 'row',
+    borderBottomColor: Colors.secundary_dark,
+    //borderTopColor: Colors.secundary_dark,
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
+    //backgroundColor: '#FFFFFF',
+    //backgroundColor: Colors.secundary_dark,
+    backgroundColor: Colors.primary
+  },
+
+  boxClose: {
+    flex: 0.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    //backgroundColor: '#FFFFFF',
+    //backgroundColor: Colors.secundary_dark,
+    backgroundColor: Colors.primary
+  },
+
+  /*
+  buttomClose: {
+    height: 33,
+    width: 33,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.primary,
+    borderRadius:10,
+    borderWidth: 1,
+    borderColor: '#fff'
+  },
+  */
+
+  boxTittle: {
+    flex: 3,
+    //backgroundColor: '#FFFFFF'
+    //backgroundColor: Colors.secundary_dark,
+    backgroundColor: Colors.primary,
+    padding: 10
+  },
+
+  tituloSeccion: {
+    fontSize: 18, //22
+    //marginLeft:12,
+    //marginBottom:5,
+    textAlign:'center',
+    color: Colors.secundary_light
+    //color: Colors.tertiary, 
+  },
+
+  textoSeccion: {
+    fontSize: 10, //13,
+    //marginLeft:16,
+    //marginBottom:7,
+    textAlign:'center',
+    color: Colors.secundary_light
+    //color: Colors.tertiary,
+  },
 
   text:{
     fontSize:30
@@ -584,6 +726,7 @@ const styles = StyleSheet.create({
     marginVertical: altura/118.4, 
     marginLeft:10
   },
+
   menu:{
     backgroundColor: '#303f9f',
     flexDirection:'row',
@@ -602,80 +745,106 @@ const styles = StyleSheet.create({
     width:200
   },
 
-  cerrarModalTexto:{
-    //backgroundColor: '#F0F0F0',
-    textDecorationLine: "underline",
-    color:'blue',
-    fontSize:20,
-    width:100,
-  },
-
-  tituloSeccion:{
-    fontSize:25,
-    marginLeft:12,
-    marginBottom:5
-  },
-
-  textoSeccion:{
-    fontSize: 15,
-    marginLeft:16,
-    marginBottom:7
-  },
-
   subTituloModal:{
-    fontSize:23
+    fontSize: 15, //20,
+    color: Colors.secundary_light
+    //color: Colors.tertiary,
   },
 
   textEsp:{
     marginBottom:5,
-    fontSize:14
+    fontSize:14,
   },
   
   itemDisponible:{
-    backgroundColor:'#45AEC2',
+    backgroundColor: Colors.libroDisponible,
     borderRadius:20,
     padding:15,
-    marginTop:10
+    marginTop:10,
+    fontSize: 11, //20,
   },
 
   itemPedido:{
-    backgroundColor:'orange',
+    backgroundColor: Colors.libroPedido,
     borderRadius:20,
     padding:15,
-    marginTop:10
+    marginTop:10,
+    //color: Colors.secundary_light,
+    fontSize: 11, //20,
   },
 
   itemPrestado:{
-    backgroundColor:'#FF2929',
+    backgroundColor: Colors.libroNoDisponible,
     borderRadius:20,
     padding:15,
-    marginTop:10
+    marginTop:10,
+    //color: Colors.secundary_light,
+    fontSize: 11, //20,
   },
 
   itemReservado:{
     backgroundColor:'blue',
     borderRadius:20,
     padding:15,
-    marginTop:10
+    marginTop:10,
+    fontSize: 11, //20,
   },
+
   itemSeleccionado:{
-    backgroundColor:'#3C5BB1',
+    backgroundColor: Colors.libroSeleccionado,
     borderRadius:20,
     padding:15,
-    marginTop:10
+    marginTop:10,
+    color: Colors.secundary_light,
+    fontSize: 11, //20,
   },
+
   boton:{
     width: ancho/1.2,
-    backgroundColor:'#001970',
+    //backgroundColor: Colors.secundary_dark,
+    backgroundColor: Colors.primary,
     borderRadius: altura/23.7,
     marginVertical: altura/59.2,
     paddingVertical: altura/45.5
   },
+
   textoBoton:{
     fontSize: 16,
     fontWeight:'500',
     color:'#ffffff',
     textAlign:'center'
-  }
+  },
+
+  contenedorItem: {
+    flex: 1,
+    flexDirection: 'column',
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#f7f7f7',
+    borderRadius: 10
+  },
+
+  itemH: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    //backgroundColor: Colors.secundary_dark,
+    backgroundColor: Colors.primary,
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: '#f7f7f7',
+    padding:10,
+  },
+
+  itemB: {
+    backgroundColor:Colors.secundary_light,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    borderBottomWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: '#f7f7f7',
+    padding:15,
+  },
 
 })
