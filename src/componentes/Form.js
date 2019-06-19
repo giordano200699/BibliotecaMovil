@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, TextInput, TouchableOpacity, Dimensions,Alert} from 'react-native';
+import {StyleSheet, Text, View,AsyncStorage, TextInput, TouchableOpacity, Dimensions,Alert} from 'react-native';
 
 
 var dimensiones = Dimensions.get('window');
@@ -21,7 +21,7 @@ export default class Form extends Component {
     super();
     this.state = {
       codigo: '',
-      contrasenia: ''
+      contrasenia: '',
     }
   }
 
@@ -34,6 +34,8 @@ export default class Form extends Component {
   }
 
   async preAutorizacion(properties){
+
+
     try {
       
       if(this.state.codigo.endsWith('@unmsm.edu.pe')){
@@ -60,6 +62,7 @@ export default class Form extends Component {
       if(Object.keys(responseJson).length!=2){
         //properties.navigation.navigate('TabMenu',{usuario:responseJson[0]});
         properties.navigation.navigate('DrawerMenu',{usuario:responseJson[0]});
+        //properties.navigation.navigate('Intro', {usuario: responseJson[0], properties: properties});
         //properties.navigation.navigate('Perfil',{usuario:responseJson[0]});
       }else{
         Alert.alert(
