@@ -158,7 +158,15 @@ cambiarCodigoItemAnterior(){
                   
                   if (contador === result2.editoriales.length) {
                     var codigoItems = [];
+                    var contadorItem = 0;
                     for (let item of result2.items){
+                        contadorItem++;
+                        if(contadorItem != item.numeroCopia){
+                          for(var i = contadorItem;i<item.numeroCopia;i++){
+                            codigoItems.push(<View></View>);
+                            contadorItem++;
+                          }
+                        }
                         codigoItems.push(
                           <View>
                             {item.disponibilidad > 0 ?
@@ -169,6 +177,7 @@ cambiarCodigoItemAnterior(){
                                     itemSeleccionado: item,
                                     banderaSeleccionItem: true,
                                     lugarArregloItem: item.numeroCopia - 1
+                                    //lugarArregloItem: contadorItem - 1
                                   });
                               }
 
@@ -254,7 +263,6 @@ cambiarCodigoItemAnterior(){
   async pedirLibro(){
     var fechaActualS = new Date();
     fechaActualS.setTime( fechaActualS.getTime() + -5 * 60 * 60 * 1000 );
-
     await fetch('http://bibliotecabackend.herokuapp.com/pedidos?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n',
     {
       method: 'POST',
@@ -270,23 +278,50 @@ cambiarCodigoItemAnterior(){
         tipo: this.state.seleccionPrestamo
       }),
     })//hace el llamado al dominio que se le envió donde retornara respuesta de la funcion
-    .then((response)=>{
-        return response.json();
+    .then((response) => response.json())
+    .then((resultado)=>{
+        //alert(Object.keys(resultado)[1]);
+        //alert(resultado._65);
+        //alert(resultado.contenidoError);
+        if(Object.keys(resultado).length==2){
+          Alert.alert(
+            'No se puede realizar el pedido',
+            resultado.contenidoError,
+            [
+              {text: 'Ok', onPress: () => {
+                  this.setState({
+                    mostrarModal:false,
+                    cargoData:false,
+                    itemSeleccionado:null,
+                    banderaSeleccionItem:false,
+                    codigoItemsModal: [],
+                    valorBusquedaTrabajado:'',
+                    paginado:1,
+                    codigo: [],
+                    mostrarMas: false
+                  },()=>{
+                    this.miFuncion(this.state.paginado);
+                  });
+              }},
+            ]
+          );
+        }else{
+          this.setState({
+            mostrarModal:false,
+            cargoData:false,
+            itemSeleccionado:null,
+            banderaSeleccionItem:false,
+            codigoItemsModal: [],
+            valorBusquedaTrabajado:'',
+            paginado:1,
+            codigo: [],
+            mostrarMas: false
+          },()=>{
+            this.miFuncion(this.state.paginado);
+          });
+        }
+
     })
-    .then(async (result)=>{
-        
-        this.setState({
-          mostrarModal:false,
-          cargoData:false,
-          itemSeleccionado:null,
-          banderaSeleccionItem:false,
-          codigoItemsModal: [],
-          valorBusquedaTrabajado:'',
-          paginado:1
-        },()=>{
-          this.miFuncion(this.state.paginado);
-        });
-    });
     
   }
 
@@ -471,7 +506,6 @@ cambiarCodigoItemAnterior(){
                       <TouchableOpacity style={styles.boton} onPress={() => {
                         //alert(this.state.itemSeleccionado?"Prestando "+this.state.itemSeleccionado.numeroCopia+" para "+(this.state.seleccionPrestamo==0?'Sala':'Domicilio'):'Primero debe escoger un Item.');
                         if(this.state.itemSeleccionado){
-                          if(this.props.navigation.getParam('usuario').estado==0){
                             Alert.alert(
                               'Petición de Item',
                               '¿Está seguro de pedir este libro?',
@@ -488,15 +522,6 @@ cambiarCodigoItemAnterior(){
                               ],
                               {cancelable: false},
                             );
-                          } else{
-                              if(this.props.navigation.getParam('usuario').estado==1){
-                                alert("El usuario ya ha pedido un Libro");
-                              }else if(this.props.navigation.getParam('usuario').estado==2){
-                                alert("El usuario ya tiene prestado un Libro");
-                              }else{
-                                alert("El usuario ya ha reservado un Libro");
-                              }    
-                          }
                         } else{
                           alert("Primero debe escoger un Item.");
                         }
