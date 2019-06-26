@@ -11,6 +11,7 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 
 import Navegacion from './../../Navegacion';
 import DrawerMenu from '../componentes/DrawerMenu';
+import { Colors } from '../styles';
 
 
 export default class Intro extends React.Component {
@@ -82,8 +83,8 @@ const styles = StyleSheet.create({
         padding: 50,
     },
     image: {
-        //width: 200,
-        //height: 200,
+        //width: 330,
+        //height: 600,
     },
     text: {
         color: '#FFFFFF',
@@ -104,7 +105,7 @@ const slides = [
         key: 's1',
         title: 'Mi Perfil',
         titleStyle: styles.title,
-        text: 'Puedes Visualizar tus Datos Personales',
+        //text: 'Puedes Visualizar tus Datos Personales',
         textStyle: styles.text,
         /*image: {
         uri:
@@ -112,71 +113,70 @@ const slides = [
         },*/
         image: require('../imagenes/1.png'),
         imageStyle: styles.image,
-        backgroundColor: '#20d2bb',
+        //backgroundColor: '#20d2bb',
+        backgroundColor: Colors.secundary_dark3,
     },
     {
         key: 's2',
         title: 'Mi Perfil',
         titleStyle: styles.title,
-        text: 'Puedes Visualizar tus Pedidos',
+        //text: 'Puedes Visualizar tus Pedidos',
         image: require('../imagenes/2.png'),
         imageStyle: styles.image,
-        backgroundColor: '#febe29',
+        //backgroundColor: '#febe29',
+        backgroundColor: Colors.secundary_dark3,
     },
     {
         key: 's3',
         title: 'Navegacion',
         titleStyle: styles.title,
-        text: 'Puedes cambiar de ventana',
+        //text: 'Puedes cambiar de ventana',
         image: require('../imagenes/3.png'),
         imageStyle: styles.image,
-        backgroundColor: '#22bcb5',
+        //backgroundColor: '#22bcb5',
+        backgroundColor: Colors.secundary_dark3,
     },
     {
         key: 's4',
         title: 'Busqueda de Libros',
         titleStyle: styles.title,
-        text: 'Puedes buscar los libros de la biblioteca',
+        //text: 'Puedes buscar los libros de la biblioteca',
         textStyle: styles.text,
         image: require('../imagenes/4.png'),
         imageStyle: styles.image,
-        backgroundColor: '#20d2bb',
+        //backgroundColor: '#20d2bb',
+        backgroundColor: Colors.secundary_dark3,
     },
     {
         key: 's5',
         title: 'Libro',
         titleStyle: styles.title,
-        text: 'Puedes visualizar la informacion del libro',
+        //text: 'Puedes visualizar la informacion del libro',
         image: require('../imagenes/5.png'),
         imageStyle: styles.image,
-        backgroundColor: '#febe29',
+        //backgroundColor: '#febe29',
+        backgroundColor: Colors.secundary_dark3,
     },
     {
         key: 's6',
         title: 'Libro',
         titleStyle: styles.title,
-        text: 'Puedes visualizar la disponibilidad de los libros y solicitar uno',
+        //text: 'Puedes visualizar la disponibilidad de los libros y solicitar uno',
         image: require('../imagenes/6.png'),
         imageStyle: styles.image,
-        backgroundColor: '#22bcb5',
+        //backgroundColor: '#22bcb5',
+        backgroundColor: Colors.secundary_dark3,
     },
     {
         key: 's7',
-        title: 'Libro',
+        title: 'Iniciar Sesion',
         titleStyle: styles.title,
-        text: 'Puedes solicitarlo para sala o domicilio',
+        //text: 'Puedes solicitarlo para sala o domicilio',
         textStyle: styles.text,
-        image: require('../imagenes/7.png'),
-        imageStyle: styles.image,
-        backgroundColor: '#20d2bb',
-    },
-    {
-        key: 's8',
-        title: 'Inicio de Sesion',
-        titleStyle: styles.title,
-        text: 'Puedes iniciar sesion con tu correo institucional y codigo',
         image: require('../imagenes/8.png'),
         imageStyle: styles.image,
-        backgroundColor: '#febe29',
+        //backgroundColor: '#20d2bb',
+        backgroundColor: Colors.secundary_dark3,
     },
+
 ];

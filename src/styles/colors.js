@@ -28,6 +28,7 @@ export const secundary = '#F5F5F5'
 export const secundary_light = '#FFFFFF'
 export const secundary_dark = '#BDBDBD'//'#DBDBDB' //c2c2c2
 export const secundary_dark2 = '#DBDBDB'
+export const secundary_dark3 = '#1c1c1c'
 export const secundary_text = '#2B2B2B'
 
 export const tertiary = '#424242'

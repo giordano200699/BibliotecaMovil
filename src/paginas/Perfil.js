@@ -82,17 +82,13 @@ export default class Perfil extends Component {
   render() {
     const usuario = this.props.navigation.getParam('usuario');
 
-    //alert(this.props.navigation);
-/*
-    var usuario;
+    var rutaImagen = null;
+    //if(usuario.imagenId){
+      //rutaImagen = rutaImagen = "https://bibliotecabackend.herokuapp.com/archivos/imagen/"+usuario.imagenId+"/1?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n";
+    //}else{
+      rutaImagen = "https://res.cloudinary.com/tempos/image/upload/v1561573722/fotoUsuario.png";
+    //}
 
-    if(this.props.navigation != null){
-      usuario = this.props.navigation;
-    } else{
-      usuario = this.props.navigation.getParam('usuario');
-    }
-*/
-    const rutaImagen = "https://bibliotecabackend.herokuapp.com/archivos/imagen/" + usuario.imagenId + "/1?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n";
     this.llenarTipoUsuario(usuario.tipoUsuarioId);
 
     return (
