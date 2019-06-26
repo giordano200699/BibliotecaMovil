@@ -6,11 +6,13 @@ import Libros from './src/paginas/Libros';
 import DrawerMenu from './src/componentes/DrawerMenu';
 import InfoLibro from "./src/componentes/InfoLibro";
 import TabMenu from './src/componentes/TabMenu';
+import Intro from './src/paginas/Intro'
 
 const NavegacionPrincipal = createStackNavigator({
     Main: {screen: Main, navigationOptions: { header: null,}},
     //Perfil: {screen: Perfil, navigationOptions: { header: null}},
     DrawerMenu: {screen: DrawerMenu, navigationOptions: { header: null}},
+    Intro: {screen: Intro, navigationOptions:{header: null}},
     //TabMenu: {screen: TabStack, navigationOptions: { header: null}},
     //InfoLibro: {screen: InfoLibro, navigationOptions: { header: null}},
 })

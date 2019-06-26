@@ -55,10 +55,11 @@ const ItemImagen = styled.View`
 
 export default class Perfil extends Component {
 
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
-      tipoUsuario: {}
+      tipoUsuario: {},
+      //usuario: this.props.navigation,
     }
   }
 
@@ -70,7 +71,7 @@ export default class Perfil extends Component {
       try {
 
         let response = await fetch(
-          'https://bibliotecabackend.herokuapp.com/tipoUsuarios/'+id+'?clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n');
+          'https://bibliotecabackend.herokuapp.com/tipoUsuarios/' + id + '?clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n');
         let responseJson = await response.json();
         this.setState({tipoUsuario:responseJson[0]});
       } catch (error) {
@@ -80,7 +81,18 @@ export default class Perfil extends Component {
   
   render() {
     const usuario = this.props.navigation.getParam('usuario');
-    const rutaImagen = "https://bibliotecabackend.herokuapp.com/archivos/imagen/"+usuario.imagenId+"/1?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n";
+
+    //alert(this.props.navigation);
+/*
+    var usuario;
+
+    if(this.props.navigation != null){
+      usuario = this.props.navigation;
+    } else{
+      usuario = this.props.navigation.getParam('usuario');
+    }
+*/
+    const rutaImagen = "https://bibliotecabackend.herokuapp.com/archivos/imagen/" + usuario.imagenId + "/1?Content-Type=application/json&clave=QDm6pbKeVwWikPvpMSUYwp0tNnxcaLoYLnyvLQ4ISV39uQOgsjTEjS0UNlZHwbxl2Ujf30S31CSKndwpkFeubt5gJHTgFlq7LeIaSYc0jNm44loPty2ZK1nI0qisrt2Xwq0nFhdp8H3kdpyL5wVZLH7EpSE6IO0cHAOGOfSpJjF36eiCuXJ3gkOfX8C4n";
     this.llenarTipoUsuario(usuario.tipoUsuarioId);
 
     return (
