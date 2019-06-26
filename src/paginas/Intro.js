@@ -2,7 +2,7 @@
 import React from 'react';
 //import react in project 
 
-import { StyleSheet, AsyncStorage, View, Text, ActivityIndicator } from 'react-native';
+import { StyleSheet, AsyncStorage, View, Text, ActivityIndicator, Dimensions} from 'react-native';
 //import all the required component
 
 import AppIntroSlider from 'react-native-app-intro-slider';
@@ -13,6 +13,9 @@ import Navegacion from './../../Navegacion';
 import DrawerMenu from '../componentes/DrawerMenu';
 import { Colors } from '../styles';
 
+var dimensiones = Dimensions.get('window');
+var altura = dimensiones.height;
+var ancho = dimensiones.width;
 
 export default class Intro extends React.Component {
   constructor(props) {
@@ -85,6 +88,9 @@ const styles = StyleSheet.create({
     image: {
         //width: 330,
         //height: 600,
+        width: ancho/4.1*3.2,
+        flex: 1,
+        resizeMode: 'contain',
     },
     text: {
         color: '#FFFFFF',
